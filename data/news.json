@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-21T23:30:00-05:00",
- "next": "2026-11-22T05:30:00-05:00",
+ "updated": "2026-11-22T01:00:00-05:00",
+ "next": "2026-11-22T07:00:00-05:00",
  "ticker": [
   {
    "k": "Tasa BCRP",
@@ -27,6 +27,14 @@
    "when": "set"
   },
   {
+   "k": "Desempleo Lima",
+   "v": "4,4 %",
+   "d": "mín. histórico",
+   "dir": "down",
+   "src": "https://gestion.pe/economia/el-desempleo-en-lima-bajo-a-su-minimo-historico-pero-otro-indicador-preocupa-cual-noticia/",
+   "when": "jul–set"
+  },
+  {
    "k": "Dólar",
    "v": "S/ 3,38",
    "d": "a la baja",
@@ -41,6 +49,14 @@
    "dir": "down",
    "src": "https://www.portalminero.com/wp/wp-content/uploads/panel/informes/cochilco-20261116-BdI8iNe3.pdf",
    "when": "13 nov"
+  },
+  {
+   "k": "Oro",
+   "v": "US$ 3 736/oz",
+   "d": "−3 %",
+   "dir": "down",
+   "src": "https://reporteminero.cl/noticia/noticias/2026/11/oro-cae-minimo-14-meses-dolar-tasas-fed-hawkish",
+   "when": "19 nov"
   },
   {
    "k": "Brent",
@@ -603,6 +619,288 @@
     "by": "Andy Li",
     "link": "https://unsplash.com/@andylid0?utm_source=pulso_economico&utm_medium=referral"
    }
+  },
+  {
+   "id": "exportaciones",
+   "cat": "peru",
+   "tag": "Comercio exterior",
+   "date": "2026-11-11",
+   "title": "Las exportaciones peruanas suben 31 % y superan los US$ 83 mil millones a setiembre",
+   "dek": "China sigue siendo el principal comprador y catorce destinos ya marcan récord antes de cerrar el año.",
+   "body": [
+    "Según el Mincetur, las exportaciones de bienes del Perú sumaron US$ 83 785 millones entre enero y setiembre de 2026, 31 % más que en el mismo periodo del año pasado.",
+    "El número de empresas exportadoras creció 3 % y llegó a 9 141; cerca de dos de cada tres son micro, pequeñas o medianas empresas.",
+    "China se mantuvo como el primer destino, con compras por US$ 31 309 millones (+31,3 %). Los envíos crecieron hacia todos los socios principales, y catorce mercados, entre ellos Australia y Hong Kong, ya registran valores récord.",
+    "Entre los productos agrícolas, la palta y la granada superaron antes de fin de año los récords que habían marcado en 2025."
+   ],
+   "why": "Las exportaciones traen dólares al país: sostienen las reservas del BCRP, ayudan a que el sol se aprecie y explican buena parte del crecimiento cuando la demanda interna va lenta.",
+   "data": [
+    [
+     "Exportaciones ene–set",
+     "US$ 83 785 mill."
+    ],
+    [
+     "Variación anual",
+     "+31 %"
+    ],
+    [
+     "Empresas exportadoras",
+     "9 141"
+    ],
+    [
+     "Destino n.º 1: China",
+     "US$ 31 309 mill."
+    ]
+   ],
+   "concepts": [
+    "balanza",
+    "commodity"
+   ],
+   "sources": [
+    {
+     "n": "Gestión",
+     "u": "https://gestion.pe/economia/exportaciones-de-peru-rompen-record-al-superar-los-us-83000-millones-sectores-estrella-noticia/"
+    },
+    {
+     "n": "Rumbo Minero (Mincetur)",
+     "u": "https://www.rumbominero.com/peru/noticias/economia/exportaciones-peruanas-entre-enero-y-setiembre-del-2026/"
+    },
+    {
+     "n": "Revista Economía",
+     "u": "https://www.revistaeconomia.com/exportaciones-peruanas-2026/"
+    }
+   ],
+   "img": {
+    "u": "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75",
+    "alt": "Arándanos frescos",
+    "by": "Joanna Kosinska",
+    "link": "https://unsplash.com/@joannakosinska?utm_source=pulso_economico&utm_medium=referral"
+   }
+  },
+  {
+   "id": "desempleo",
+   "cat": "peru",
+   "tag": "Empleo",
+   "date": "2026-11-16",
+   "title": "El desempleo en Lima baja a 4,4 %, el nivel más bajo desde que el INEI lo mide",
+   "dek": "Hay más gente trabajando, pero un tercio de la fuerza laboral limeña sigue subempleada.",
+   "body": [
+    "El INEI informó que la tasa de desempleo de Lima Metropolitana fue de 4,4 % en el trimestre julio–setiembre de 2026. Según el IPE, es el dato más bajo desde que existe la encuesta permanente de empleo, en 2001, y 1,3 puntos menos que hace un año.",
+    "En el trimestre agosto–octubre el desempleo se mantuvo en 4,4 %: unas 276 700 personas buscaron trabajo activamente en la capital. La población ocupada femenina creció 6,4 %.",
+    "No todo es positivo: el 33,4 % de la PEA limeña está subempleada, es decir, trabaja menos horas de las que quisiera o gana menos que el ingreso mínimo de referencia. Además, el empleo en manufactura cayó 5,1 %."
+   ],
+   "why": "El desempleo bajo no basta para medir el bienestar: en el Perú el gran reto es la calidad del empleo (formalidad, ingresos y horas), por eso el subempleo es el indicador a seguir.",
+   "data": [
+    [
+     "Desempleo Lima (jul–set)",
+     "4,4 %"
+    ],
+    [
+     "Cambio en un año",
+     "−1,3 pp"
+    ],
+    [
+     "Subempleo Lima",
+     "33,4 %"
+    ],
+    [
+     "Desocupados (ago–oct)",
+     "276 700"
+    ]
+   ],
+   "concepts": [
+    "pea",
+    "subempleo"
+   ],
+   "sources": [
+    {
+     "n": "Gestión",
+     "u": "https://gestion.pe/economia/el-desempleo-en-lima-bajo-a-su-minimo-historico-pero-otro-indicador-preocupa-cual-noticia/"
+    },
+    {
+     "n": "Revista Economía",
+     "u": "https://www.revistaeconomia.com/?p=145279"
+    },
+    {
+     "n": "INEI (informe técnico)",
+     "u": "https://www.inei.gob.pe/media/MenuRecursivo/boletines/boletin-empleo-jul-ago-set-2026_1.pdf"
+    }
+   ],
+   "img": {
+    "u": "https://images.unsplash.com/photo-1658893654213-0c27739df810?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75",
+    "alt": "Trabajadores en una obra de construcción",
+    "by": "Meg Jenson",
+    "link": "https://unsplash.com/@megjenson?utm_source=pulso_economico&utm_medium=referral"
+   }
+  },
+  {
+   "id": "oro",
+   "cat": "mercados",
+   "tag": "Metales",
+   "date": "2026-11-19",
+   "title": "El oro cae a su nivel más bajo en 14 meses por la expectativa de tasas más altas en EE. UU.",
+   "dek": "El metal ronda los US$ 3 736 por onza, alrededor de un tercio por debajo de su récord de enero.",
+   "body": [
+    "El precio spot del oro bajó 3 % hasta unos US$ 3 736 por onza el 19 de noviembre, su nivel más bajo desde setiembre de 2025, según Reporte Minero.",
+    "Bloomberg Línea calcula que el metal ha perdido cerca de 33 % desde su máximo histórico, próximo a US$ 5 600. La razón principal: los mercados esperan que la Reserva Federal vuelva a subir tasas, lo que fortalece al dólar y hace menos atractivo un activo que no paga intereses.",
+    "A inicios de noviembre el oro había intentado recuperarse por encima de US$ 4 000, pero no logró sostener ese nivel."
+   ],
+   "why": "El oro es uno de los principales productos de exportación del Perú: su precio afecta los ingresos por exportaciones, la recaudación por minería y la economía de regiones productoras.",
+   "data": [
+    [
+     "Precio spot (19 nov)",
+     "US$ 3 736/oz"
+    ],
+    [
+     "Caída en la jornada",
+     "−3 %"
+    ],
+    [
+     "Récord (enero)",
+     "≈ US$ 5 600/oz"
+    ],
+    [
+     "Caída desde el récord",
+     "≈ −33 %"
+    ]
+   ],
+   "concepts": [
+    "refugio",
+    "commodity",
+    "fomc"
+   ],
+   "sources": [
+    {
+     "n": "Reporte Minero",
+     "u": "https://reporteminero.cl/noticia/noticias/2026/11/oro-cae-minimo-14-meses-dolar-tasas-fed-hawkish"
+    },
+    {
+     "n": "Bloomberg Línea",
+     "u": "https://www.bloomberglinea.com/mercados/del-record-al-desplome-el-oro-pierde-33-y-enfrenta-nuevas-amenazas-de-la-fed/"
+    },
+    {
+     "n": "La República (Colombia)",
+     "u": "https://www.larepublica.co/finanzas/precio-del-oro-hoy-18-de-noviembre-4527115"
+    }
+   ],
+   "img": {
+    "u": "https://images.unsplash.com/photo-1610375461246-83df859d849d?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75",
+    "alt": "Lingotes de oro apilados",
+    "by": "Jingming Pan",
+    "link": "https://unsplash.com/@pokmer?utm_source=pulso_economico&utm_medium=referral"
+   }
+  },
+  {
+   "id": "china",
+   "cat": "mundo",
+   "tag": "Asia",
+   "date": "2026-11-17",
+   "title": "China crece 4,5 % y su superávit comercial ya supera el billón de dólares",
+   "dek": "Las exportaciones de chips se disparan, pero el consumo interno sigue siendo el punto débil.",
+   "body": [
+    "El PBI de China creció 4,5 % interanual en el tercer trimestre de 2026 y 1,2 % frente al trimestre anterior, según CaixaBank Research. Con ello toca el piso de su meta oficial para el año, de entre 4,5 % y 5 %.",
+    "El impulso vino de la industria, en especial de bienes de equipo y manufactura de alta tecnología. En los primeros diez meses del año, las exportaciones de circuitos integrados crecieron más de 111 % y el superávit comercial superó el billón de dólares.",
+    "Los analistas advierten que la economía sigue dependiendo del estímulo público y de las exportaciones, mientras el gasto de los hogares no termina de despegar."
+   ],
+   "why": "China compra cerca de un tercio de lo que exporta el Perú, sobre todo cobre y otros minerales: su ritmo de crecimiento se siente directamente en nuestros precios de exportación y en la inversión minera.",
+   "data": [
+    [
+     "PBI 3T 2026 (interanual)",
+     "+4,5 %"
+    ],
+    [
+     "PBI 3T (trimestral)",
+     "+1,2 %"
+    ],
+    [
+     "Meta oficial 2026",
+     "4,5 %–5 %"
+    ],
+    [
+     "Exportación de chips (ene–oct)",
+     "+111 %"
+    ]
+   ],
+   "concepts": [
+    "pbi",
+    "balanza"
+   ],
+   "sources": [
+    {
+     "n": "CaixaBank Research",
+     "u": "https://www.caixabankresearch.com/es/publicaciones/notas-breves-actualidad-economica-y-financiera/internacional/economia-china-se-2"
+    },
+    {
+     "n": "DolarHoy",
+     "u": "https://dolarhoy.com/economia/china-acelera-su-crecimiento-al-4-5-y-supera-el-billon-de-dolares-de-superavit-comercial-en-solo-diez-meses-2026111713150"
+    },
+    {
+     "n": "Oficina Nacional de Estadística de China",
+     "u": "https://www.stats.gov.cn/english/PressRelease//202611/t20261116_1965843.html"
+    }
+   ],
+   "img": {
+    "u": "https://images.unsplash.com/photo-1627484986972-e544190b8abb?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75",
+    "alt": "Shanghái de noche",
+    "by": "Zhou Xian",
+    "link": "https://unsplash.com/@zhou_xian?utm_source=pulso_economico&utm_medium=referral"
+   }
+  },
+  {
+   "id": "bce",
+   "cat": "mundo",
+   "tag": "Europa",
+   "date": "2026-10-29",
+   "title": "El BCE mantiene su tasa en 2,50 % y Lagarde anuncia que dejará el cargo en febrero",
+   "dek": "La crisis energética presiona la inflación en la eurozona y el mercado espera una subida en diciembre.",
+   "body": [
+    "El Banco Central Europeo dejó sin cambios sus tres tasas oficiales el 29 de octubre: la de depósito en 2,50 %, la de refinanciación en 2,65 % y la de crédito marginal en 2,90 %. La decisión fue unánime.",
+    "En su comunicado, el BCE advirtió que la crisis energética, más larga e intensa de lo previsto, probablemente empujará la inflación al alza y frenará el crecimiento. Por ahora la inflación subyacente y los salarios se mantienen estables.",
+    "Ese mismo día Christine Lagarde anunció que dejará la presidencia del banco el 7 de febrero de 2027, unos ocho meses antes del fin de su mandato. Los países de la eurozona deberán elegir a su sucesor."
+   ],
+   "why": "Junto con la Fed, el BCE define el costo del dinero en el mundo: si ambos suben tasas, los capitales tienden a salir de mercados emergentes como el Perú y el dólar se fortalece.",
+   "data": [
+    [
+     "Tasa de depósito",
+     "2,50 %"
+    ],
+    [
+     "Tasa de refinanciación",
+     "2,65 %"
+    ],
+    [
+     "Crédito marginal",
+     "2,90 %"
+    ],
+    [
+     "Salida de Lagarde",
+     "7 feb 2027"
+    ]
+   ],
+   "concepts": [
+    "tasa",
+    "sub"
+   ],
+   "sources": [
+    {
+     "n": "Banco de España (nota del BCE)",
+     "u": "https://www.bde.es/f/webbe/GAP/Secciones/SalaPrensa/ComunicadosBCE/DecisionesPoliticaMonetaria/26/mp261029.pdf"
+    },
+    {
+     "n": "CaixaBank Research",
+     "u": "https://www.caixabankresearch.com/es/publicaciones/notas-breves-actualidad-economica-y-financiera/observatorio-bancos-centrales-122"
+    },
+    {
+     "n": "Raisin",
+     "u": "https://www.raisin.com/es-es/noticias/tipos-de-interes-del-bce-octubre/"
+    }
+   ],
+   "img": {
+    "u": "https://images.unsplash.com/photo-1619718082268-5a1b74988497?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75",
+    "alt": "Monedas de euro",
+    "by": "Roman Wimmers",
+    "link": "https://unsplash.com/@akitada31?utm_source=pulso_economico&utm_medium=referral"
+   }
   }
  ],
  "glossary": {
@@ -649,6 +947,22 @@
   "commodity": [
    "Materia prima (commodity)",
    "Bien básico e intercambiable, como el cobre o el petróleo, cuyo precio se fija en mercados internacionales."
+  ],
+  "balanza": [
+   "Balanza comercial",
+   "Diferencia entre lo que un país exporta e importa. Si exporta más de lo que importa, tiene superávit."
+  ],
+  "pea": [
+   "PEA",
+   "Población económicamente activa: personas en edad de trabajar que tienen empleo o lo están buscando."
+  ],
+  "subempleo": [
+   "Subempleo",
+   "Trabajar menos horas de las que uno quisiera, o ganar menos que un ingreso mínimo de referencia."
+  ],
+  "refugio": [
+   "Activo refugio",
+   "Inversión que suele mantener su valor en épocas de incertidumbre, como el oro o los bonos del Tesoro de EE. UU."
   ]
  },
  "hero": {
@@ -656,5 +970,61 @@
   "alt": "Costa de Lima, Perú",
   "by": "Josh",
   "link": "https://unsplash.com/@jack_of_some_trades?utm_source=pulso_economico&utm_medium=referral"
+ },
+ "pages": {
+  "peru": {
+   "u": "https://images.unsplash.com/photo-1786477836233-e8363e2e68d6?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=640&q=75",
+   "alt": "Costa de Lima, Perú",
+   "by": "Josh",
+   "link": "https://unsplash.com/@jack_of_some_trades?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "mundo": {
+   "u": "https://images.unsplash.com/photo-1480843669328-3f7e37d196ae?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=640&q=75",
+   "alt": "Ciudad iluminada vista desde un avión",
+   "by": "Dennis Kummer",
+   "link": "https://unsplash.com/@dekubaum?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "mercados": {
+   "u": "https://images.unsplash.com/photo-1560221328-12fe60f83ab8?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=640&q=75",
+   "alt": "Pantalla con gráficos bursátiles",
+   "by": "Nicholas Cappello",
+   "link": "https://unsplash.com/@bash__profile?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "indicadores": {
+   "u": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=640&q=75",
+   "alt": "Laptop con estadísticas",
+   "by": "Carlos Muza",
+   "link": "https://unsplash.com/@kmuza?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "aprende": {
+   "u": "https://images.unsplash.com/photo-1514513452089-17f8a9771ee8?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=640&q=75",
+   "alt": "Estudiantes en una biblioteca",
+   "by": "Benjamin Ashton",
+   "link": "https://unsplash.com/@bashton?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "banca": {
+   "u": "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?ixlib=rb-4.1.0&auto=format&fit=crop&w=900&h=600&q=75",
+   "alt": "Teclado de un cajero automático",
+   "by": "Eduardo Soares",
+   "link": "https://unsplash.com/@eduschadesoares?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "turismo": {
+   "u": "https://images.unsplash.com/photo-1593182440709-4b7b56482c55?ixlib=rb-4.1.0&auto=format&fit=crop&w=900&h=600&q=75",
+   "alt": "Ala de avión sobre las nubes",
+   "by": "Johny Goerend",
+   "link": "https://unsplash.com/@johnygoerend?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "autos": {
+   "u": "https://images.unsplash.com/photo-1777175013302-eaf4b3ef785a?ixlib=rb-4.1.0&auto=format&fit=crop&w=900&h=600&q=75",
+   "alt": "Autos nuevos en una sala de exhibición",
+   "by": "Portafolio fotográfico automotriz",
+   "link": "https://unsplash.com/@portafoliofotograficoautomotriz?utm_source=pulso_economico&utm_medium=referral"
+  },
+  "libro": {
+   "u": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.1.0&auto=format&fit=crop&w=900&h=600&q=75",
+   "alt": "Persona escribiendo un formulario",
+   "by": "Unseen Studio",
+   "link": "https://unsplash.com/@uns__nstudio?utm_source=pulso_economico&utm_medium=referral"
+  }
  }
 }
