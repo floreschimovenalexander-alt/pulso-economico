@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulso Económico</title>
+<meta name="description" content="Noticias de economía peruana e internacional para estudiantes, con fuentes verificables y actualización periódica.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* VOICE: sobrio y riguroso, como la sección de economía de un buen diario universitario.
+   IDEA: la primera plana de un periódico financiero: cinta de cotizaciones, titular principal, datos y fuentes al pie.
+   PICTURE: el escalón de la tasa del BCRP, de 4,25 % a 4,50 %, dibujado como un gráfico editorial.
+   COLOUR and TYPE: papel blanco, tinta #121417, carmesí #A31F34; verde y rojo solo para subidas y bajadas. Newsreader + Inter.
+   LAYOUT: barra de estado y cinta, cabecera, nota principal con gráfico y lo último, indicadores, noticias filtrables, glosario y método. */
+:root{color-scheme:light dark;
+--bg:light-dark(#FFFFFF,#0F1115);--alt:light-dark(#F5F6F8,#161920);--card:light-dark(#FFFFFF,#181B22);
+--ink:light-dark(#121417,#ECEEF2);--soft:light-dark(#575E6B,#A3AAB8);--rule:light-dark(#E3E6EB,#2A2F39);
+--red:light-dark(#A31F34,#FF7287);--up:light-dark(#0B7A43,#4FD18B);--down:light-dark(#BF2E2E,#FF7A7A);--hi:light-dark(#FBEFF1,#2A1A1F)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,Arial,sans-serif;overflow-x:clip}
+a{color:inherit}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;margin:0;line-height:1.08;text-wrap:balance;font-weight:600}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+.kick{font-size:13px;font-weight:700;color:var(--red)}
+.meta{font-size:13px;color:var(--soft)}
+button{font:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+/* status + ticker */
+.status{background:#121417;color:#E9ECF1;font-size:13px}
+.status .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:7px;padding-bottom:7px}
+.live{display:inline-flex;align-items:center;gap:8px}
+.live i{width:8px;height:8px;border-radius:50%;background:#4FD18B;box-shadow:0 0 0 0 rgba(79,209,139,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(79,209,139,0)}100%{box-shadow:0 0 0 0 rgba(79,209,139,0)}}
+.ticker{border-bottom:1px solid var(--rule);overflow:hidden;background:var(--alt)}
+.track{display:flex;gap:40px;width:max-content;padding:10px 0;animation:roll 60s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+@keyframes roll{to{transform:translateX(-50%)}}
+.tk{display:flex;gap:8px;align-items:baseline;white-space:nowrap;text-decoration:none;font-size:14px}
+.tk b{font-weight:600}.tk .v{font-variant-numeric:tabular-nums;font-weight:700}
+.up{color:var(--up)}.down{color:var(--down)}.flat{color:var(--soft)}
+@media(prefers-reduced-motion:reduce){.stepline{animation:none;stroke-dashoffset:0}.track{animation:none;overflow-x:auto;width:auto}.live i{animation:none}html{scroll-behavior:auto}}
+/* header */
+header.top{position:sticky;top:0;z-index:4;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.logo strong{font:700 30px/1 Newsreader,Georgia,serif;letter-spacing:-.01em}
+.logo span{font-size:13px;color:var(--soft)}
+.search{flex:0 1 320px}
+.search input{width:100%;min-height:44px;border:1px solid var(--rule);border-radius:999px;padding:0 18px;font:15px Inter,sans-serif;background:var(--alt);color:var(--ink)}
+nav.sec{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}
+nav.sec a,nav.sec button{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:0;background:transparent;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}
+nav.sec [aria-pressed=true]{background:var(--ink);color:var(--bg)}
+nav.sec .sep{width:1px;background:var(--rule);margin:8px 6px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(28px,4vw,48px);border-bottom:1px solid var(--rule)}
+.lead h1{font-size:clamp(32px,4.4vw,52px);margin:10px 0 14px;cursor:pointer}
+.lead h1:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+.lead .dek{font-size:clamp(17px,1.5vw,20px);color:var(--soft);max-width:62ch}
+.fig{position:relative;margin-top:24px;border:1px solid var(--rule);border-radius:14px;padding:18px 20px 12px;background:var(--alt)}
+.fig svg{display:block;width:100%;height:auto;color:var(--ink)}
+.stepline{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s .3s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fig-cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--soft);margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;margin-top:20px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.latest h2{font-size:22px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.latest ol{list-style:none;margin:0;padding:0;counter-reset:l}
+.latest li{border-bottom:1px solid var(--rule)}
+.latest button{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;width:100%;text-align:left;background:none;border:0;padding:16px 0;cursor:pointer}
+.latest button::before{counter-increment:l;content:counter(l);font:700 26px/1 Newsreader,serif;color:var(--red)}
+.latest h3{font-size:19px;margin-bottom:6px}
+.latest button:hover h3{text-decoration:underline}
+/* sections */
+.band{padding:clamp(36px,5vw,64px) 0;border-bottom:1px solid var(--rule)}
+.sh{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sh h2{font-size:clamp(26px,3vw,36px)}
+.sh p{color:var(--soft);max-width:56ch}
+.ind{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+.ic{background:var(--card);padding:18px 20px;display:flex;flex-direction:column;gap:6px;text-decoration:none}
+.ic:hover{background:var(--alt)}
+.ic .k{font-size:13px;font-weight:600;color:var(--soft)}
+.ic .v{font:700 clamp(26px,2.6vw,34px)/1.05 Newsreader,serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ic .d{font-size:13px;font-weight:600}
+.ic .s{font-size:12px;color:var(--soft);margin-top:auto}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(0,0,0,.35)}
+.card .row{display:flex;justify-content:space-between;gap:10px}
+.card h3{font-size:22px}
+.card p{color:var(--soft);font-size:15px}
+.card .more{margin-top:auto;padding-top:8px;font-weight:700;font-size:13px;color:var(--red)}
+.region{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--hi);color:var(--red)}
+.empty{padding:32px;text-align:center;color:var(--soft);border:1px dashed var(--rule);border-radius:14px;grid-column:1/-1}
+/* media */
+.ph{position:relative;overflow:hidden;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,var(--g1,#7a1020),var(--g2,#1b1f2a));display:grid;place-items:end start;isolation:isolate}
+.ph[data-c=mundo]{--g1:#1d3b6b;--g2:#0f1420}.ph[data-c=mercados]{--g1:#8a5a12;--g2:#1a1610}
+.ph::before{content:attr(data-t);position:absolute;inset:auto 18px 16px 18px;font:600 clamp(18px,2vw,26px)/1.1 Newsreader,Georgia,serif;color:#fff;opacity:.85;z-index:-1}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.card:hover .ph img,.lead:hover .ph img{transform:scale(1.04)}
+.ph .cr{position:absolute;right:8px;bottom:8px;font-size:11px;padding:3px 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;text-decoration:none;z-index:2}
+.ph:not(:has(img)) .cr{display:none}
+.ph .cr:hover{text-decoration:underline}
+.card .ph{margin:-20px -20px 4px;border-radius:14px 14px 0 0}
+.lead .ph{aspect-ratio:21/9;margin-bottom:18px}
+.dlg .ph{margin:0 0 22px;aspect-ratio:21/9}
+.mini{border:1px solid var(--rule);border-radius:12px;background:var(--alt);padding:16px 18px 10px;margin:4px 0 22px}
+.mini svg{display:block;width:100%;height:auto;color:var(--ink)}
+.bar{transform-origin:left;animation:grow 1.1s .2s ease-out both}
+@keyframes grow{from{transform:scaleX(0)}}
+@media(prefers-reduced-motion:reduce){.bar,.stepline{animation:none;stroke-dashoffset:0}.ph img{transition:none}}
+/* glossary */
+.gl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}
+details{border-bottom:1px solid var(--rule)}
+summary{cursor:pointer;padding:16px 0;font:600 19px Newsreader,serif;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";font:400 22px Inter,sans-serif;color:var(--red)}
+details[open] summary::after{content:"−"}
+details p{padding:0 0 16px;color:var(--soft)}
+/* method */
+.method{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,4vw,56px);align-items:start}
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:20px}
+.slot{border:1px solid var(--rule);border-radius:12px;padding:14px;text-align:center}
+.slot b{display:block;font:700 24px Newsreader,serif}
+.slot.on{border-color:var(--red);background:var(--hi)}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.steps li::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700}
+.steps h3{font:600 17px Inter,sans-serif;margin-bottom:4px}
+.steps p{color:var(--soft);font-size:15px}
+/* dialog */
+dialog{border:0;border-radius:18px;padding:0;width:min(820px,94vw);max-height:90vh;background:var(--bg);color:var(--ink);box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(10,12,16,.6);backdrop-filter:blur(3px)}
+.dlg{padding:clamp(22px,4vw,40px);overflow:auto;max-height:90vh}
+.dlg-top{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.x{min-width:44px;min-height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--alt);cursor:pointer;font-size:20px}
+.dlg h2{font-size:clamp(28px,3.4vw,40px);margin:10px 0 12px}
+.dlg .dek{font-size:18px;color:var(--soft);margin-bottom:20px}
+.dlg .body p{margin-bottom:14px;font-size:17px;line-height:1.65;max-width:68ch}
+.dtab{width:100%;border-collapse:collapse;margin:8px 0 22px;font-size:15px}
+.dtab td{padding:10px 0;border-bottom:1px solid var(--rule)}
+.dtab td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.why{background:var(--hi);border-left:4px solid var(--red);border-radius:0 12px 12px 0;padding:16px 18px;margin:6px 0 22px}
+.why b{display:block;margin-bottom:4px;color:var(--red)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+.chip{border:1px solid var(--rule);background:var(--alt);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px}
+.def{font-size:15px;color:var(--soft);margin:-12px 0 20px;min-height:0}
+.srcs{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.srcs li{border-bottom:1px solid var(--rule)}
+.srcs a{display:flex;justify-content:space-between;gap:12px;padding:14px 0;text-decoration:none;font-weight:600}
+.srcs a span{color:var(--soft);font-weight:400;font-size:13px;overflow-wrap:anywhere;text-align:right}
+.srcs a:hover{color:var(--red)}
+.cite{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+footer{padding:40px 0 56px;font-size:14px;color:var(--soft)}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px}
+footer strong{color:var(--ink)}
+@media(max-width:980px){.hero,.method{grid-template-columns:minmax(0,1fr)}.ind{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid,.gl,footer .wrap{grid-template-columns:minmax(0,1fr)}.clock{grid-template-columns:repeat(2,minmax(0,1fr))}.search{flex-basis:100%}.logo span{display:none}html{scroll-padding-top:150px}}
+</style>
+</head>
+<body>
+<div class="status"><div class="wrap"><span id="today"></span><span class="live"><i></i><span id="upd"></span></span></div></div>
+<div class="ticker" aria-label="Indicadores del día"><div class="track" id="track"></div></div>
+<header class="top"><div class="wrap">
+<div class="mast">
+<a class="logo" href="#inicio"><strong>Pulso Económico</strong><span>Economía peruana e internacional para estudiantes</span></a>
+<div class="search"><input id="q" type="search" placeholder="Buscar: inflación, cobre, Fed…" aria-label="Buscar noticias"></div>
+</div>
+<nav class="sec" aria-label="Secciones">
+<button type="button" data-c="all" aria-pressed="true">Todo</button><button type="button" data-c="peru" aria-pressed="false">Perú</button><button type="button" data-c="mundo" aria-pressed="false">Mundo</button><button type="button" data-c="mercados" aria-pressed="false">Mercados</button>
+<span class="sep"></span><a href="#indicadores">Indicadores</a><a href="#aprende">Aprende</a><a href="#metodo">Cómo se actualiza</a>
+</nav>
+</div></header>
+
+<main id="inicio">
+<section class="wrap hero">
+<article class="lead" id="lead"></article>
+<aside class="latest"><h2>Lo más reciente</h2><ol id="latest"></ol></aside>
+</section>
+
+<section class="band" id="indicadores" style="background:var(--alt)"><div class="wrap">
+<div class="sh"><div><p class="kick">Datos clave</p><h2>Indicadores del día</h2></div><p>Cada dato enlaza a su fuente original. Haz clic para verificarlo.</p></div>
+<div class="ind" id="ind"></div>
+</div></section>
+
+<section class="band" id="noticias"><div class="wrap">
+<div class="sh"><div><p class="kick">Noticias</p><h2 id="feed-title">Todas las noticias</h2></div><p>Resúmenes propios del equipo, con enlaces a cada fuente consultada.</p></div>
+<div class="grid" id="feed"></div>
+</div></section>
+
+<section class="band" id="aprende"><div class="wrap">
+<div class="sh"><div><p class="kick">Aprende</p><h2>Glosario para entender las noticias</h2></div><p>Los conceptos que aparecen esta semana, explicados en una línea.</p></div>
+<div class="gl" id="gl"></div>
+</div></section>
+
+<section class="band" id="metodo"><div class="wrap method">
+<div><p class="kick">Transparencia</p><h2 style="font-size:clamp(26px,3vw,36px)">Cómo se actualiza Pulso</h2><p style="color:var(--soft);margin-top:12px">Revisamos las fuentes cuatro veces al día, cada 6 horas (hora de Lima). Cada actualización cambia la fecha de la barra superior.</p>
+<div class="clock" id="clock"></div></div>
+<ol class="steps">
+<li><div><h3>Monitoreo de fuentes</h3><p>BCRP, INEI, MEF, FMI y Reserva Federal, más medios económicos peruanos e internacionales.</p></div></li>
+<li><div><h3>Verificación cruzada</h3><p>Cada cifra se confirma con al menos dos fuentes antes de publicarse.</p></div></li>
+<li><div><h3>Redacción propia</h3><p>Resumimos con nuestras palabras y añadimos “¿Por qué importa?” para estudiantes.</p></div></li>
+<li><div><h3>Enlace a la fuente</h3><p>Toda noticia lista sus fuentes para que puedas leer el original y citarlo.</p></div></li>
+</ol>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<div><p><strong>Pulso Económico</strong> · Proyecto de estudiantes de Economía de la Universidad Científica del Sur.</p><p style="margin-top:8px">Los resúmenes son elaborados por el equipo a partir de las fuentes citadas. Para decisiones financieras o trabajos académicos, consulta siempre el documento original.</p></div>
+<div><p><strong>Fuentes frecuentes</strong></p><p style="margin-top:8px"><a href="https://www.bcrp.gob.pe">BCRP</a> · <a href="https://www.inei.gob.pe">INEI</a> · <a href="https://www.gob.pe/mef">MEF</a> · <a href="https://www.imf.org/es">FMI</a> · <a href="https://www.federalreserve.gov">Reserva Federal</a> · <a href="https://andina.pe">Andina</a> · <a href="https://gestion.pe">Gestión</a></p></div>
+</div></footer>
+
+<dialog id="dlg" aria-labelledby="d-title"><div class="dlg" id="dlg-in"></div></dialog>
+
+<script id="seed" type="application/json">{"updated": "2026-11-21T23:30:00-05:00", "next": "2026-11-22T05:30:00-05:00", "ticker": [{"k": "Tasa BCRP", "v": "4,50 %", "d": "+0,25 pp", "dir": "up", "src": "https://andina.pe/agencia/noticia-bcr-eleva-tasa-interes-referencia-a-450-inflacion-1099738.aspx", "when": "12 nov"}, {"k": "Inflación Lima (12 m)", "v": "5,25 %", "d": "máx. en 3 años", "dir": "up", "src": "https://andina.pe/agencia/noticia-inei-inflacion-lima-metropolitana-fue-057-octubre-2026-1098147.aspx", "when": "oct"}, {"k": "PBI Perú", "v": "+2,43 %", "d": "setiembre", "dir": "up", "src": "https://forbes.pe/economia-y-finanzas/2026-11-16/inei-economia-crecio-243-en-setiembre-pero-la-mineria-y-el-sector-agropecuario-retrocedieron/", "when": "set"}, {"k": "Dólar", "v": "S/ 3,38", "d": "a la baja", "dir": "down", "src": "https://gestion.pe/economia/mercados/tipo-de-cambio-dolar-hoy-en-peru-cuanto-esta-el-precio-del-dolar-este-viernes-21-de-noviembre-dolares-a-soles-compra-y-venta-bcrp-noticia/", "when": "20 nov"}, {"k": "Cobre", "v": "US$ 6,17/lb", "d": "−2,47 % sem.", "dir": "down", "src": "https://www.portalminero.com/wp/wp-content/uploads/panel/informes/cochilco-20261116-BdI8iNe3.pdf", "when": "13 nov"}, {"k": "Brent", "v": "US$ 91,95", "d": "−1,28 %", "dir": "down", "src": "https://www.emol.com/noticias/Economia/2026/11/18/1217517/precios-petroleo-internacional-bajan-oferta.html", "when": "18 nov"}, {"k": "Fed", "v": "3,75–4,00 %", "d": "sin cambios", "dir": "flat", "src": "https://www.emol.com/noticias/Economia/2026/10/28/1215455/fed-tasas-interes-estados-unidos.html", "when": "28 oct"}], "articles": [{"id": "bcrp-tasa", "cat": "peru", "tag": "Política monetaria", "date": "2026-11-12", "lead": true, "title": "El BCRP sube su tasa de referencia a 4,50 % y rompe 14 meses de pausa", "dek": "Es la primera alza desde enero de 2023. El banco central busca que la inflación, que superó el 5 %, regrese al rango meta.", "body": ["El directorio del Banco Central de Reserva del Perú elevó la tasa de interés de referencia en 25 puntos básicos, de 4,25 % a 4,50 %, en su reunión de noviembre. La tasa llevaba 14 meses sin cambios.", "El BCRP explicó que el objetivo es que la inflación vuelva al rango meta (entre 1 % y 3 %), en un contexto de choques de oferta: el fenómeno El Niño encareció alimentos y el conflicto en Medio Oriente subió los combustibles.", "El banco aclaró que esta alza no implica necesariamente el inicio de una serie de subidas. Las próximas decisiones dependerán de los nuevos datos de inflación y de sus determinantes."], "why": "Cuando sube la tasa de referencia, los bancos suelen encarecer los préstamos en soles y pagar algo más por los depósitos. Es la herramienta principal del BCRP para frenar la inflación: encarece el crédito y modera el gasto.", "data": [["Tasa anterior", "4,25 %"], ["Tasa nueva", "4,50 %"], ["Alza", "+25 pb"], ["Última alza previa", "enero 2023"]], "concepts": ["tasa", "pb", "meta"], "sources": [{"n": "Andina", "u": "https://andina.pe/agencia/noticia-bcr-eleva-tasa-interes-referencia-a-450-inflacion-1099738.aspx"}, {"n": "Gestión", "u": "https://gestion.pe/economia/empresas/bcrp-rompe-pausa-y-sube-su-tasa-de-referencia-a-que-nivel-noticia/"}, {"n": "BBVA Research", "u": "https://www.bbvaresearch.com/publicaciones/peru-bcrp-eleva-la-tasa-a-450-y-no-descartamos-algun-ajuste-adicional/"}], "img": {"u": "https://images.unsplash.com/photo-1779819804599-783368d4338a?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Edificio de un banco central", "by": "Unsplash", "link": "https://unsplash.com/photos/Uy5gf9e6MmM?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "inflacion-oct", "cat": "peru", "tag": "Precios", "date": "2026-11-01", "title": "La inflación anual en Lima llega a 5,25 %, su nivel más alto en tres años", "dek": "Los combustibles subieron 43,67 % en doce meses y los alimentos se encarecieron por El Niño.", "body": ["Según el INEI, el Índice de Precios al Consumidor de Lima Metropolitana subió 0,57 % en octubre de 2026. En lo que va del año acumula 4,88 %, y en los últimos doce meses, 5,25 %.", "El mayor empuje vino del transporte, que subió 15,75 % en doce meses por el alza de 43,67 % en combustibles y lubricantes. En octubre también subieron productos como choclo, arveja, zanahoria, cebolla y papa, que el INEI vinculó a factores climáticos.", "La inflación subyacente, que excluye alimentos y energía, subió solo 0,16 % en el mes. A nivel nacional, la inflación anual fue de 4,83 %."], "why": "La diferencia entre inflación total y subyacente es clave: si la subyacente se mantiene baja, el alza viene sobre todo de choques puntuales (clima, petróleo) y no de una presión generalizada de demanda.", "data": [["Mensual (oct)", "0,57 %"], ["Acumulada 2026", "4,88 %"], ["Anual Lima", "5,25 %"], ["Anual nacional", "4,83 %"]], "concepts": ["ipc", "sub", "meta"], "sources": [{"n": "INEI (informe técnico)", "u": "https://www.inei.gob.pe/media/principales_indicadores/informe-de-precios-octubre2026.pdf"}, {"n": "Andina", "u": "https://andina.pe/agencia/noticia-inei-inflacion-lima-metropolitana-fue-057-octubre-2026-1098147.aspx"}, {"n": "Perú Retail", "u": "https://www.peru-retail.com/inflacion-en-peru-supera-el-5-por-primera-vez-en-mas-de-tres-anos-que-factores-presionaron-los-precios/"}], "img": {"u": "https://images.unsplash.com/photo-1760726361439-4afaa0d26808?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Puesto de verduras en un mercado", "by": "Unsplash", "link": "https://unsplash.com/photos/WSsEj4oqXWo?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "pbi-set", "cat": "peru", "tag": "Crecimiento", "date": "2026-11-16", "title": "La economía peruana creció 2,43 % en setiembre, pero la minería cayó 6,32 %", "dek": "Comercio y construcción sostienen el avance. Entre enero y setiembre, el país acumula 3,18 %.", "body": ["El INEI informó que la producción nacional aumentó 2,43 % en setiembre de 2026 frente al mismo mes de 2025. En el periodo enero–setiembre creció 3,18 %, y en los últimos doce meses, 3,22 %.", "El sector Minería e Hidrocarburos retrocedió 6,32 %, arrastrado por la menor extracción de cobre (−9,0 %), zinc (−21,1 %) y oro (−6,4 %).", "El dinamismo vino de la construcción y el comercio. El consumo interno de cemento creció 12,2 % en setiembre."], "why": "El PBI mensual muestra qué sectores empujan o frenan la economía. Que la minería caiga mientras la construcción crece indica que el crecimiento depende hoy más de la demanda interna que de las exportaciones.", "data": [["Setiembre", "+2,43 %"], ["Ene–set", "+3,18 %"], ["Últimos 12 meses", "+3,22 %"], ["Minería e hidrocarburos", "−6,32 %"]], "concepts": ["pbi"], "sources": [{"n": "Forbes Perú", "u": "https://forbes.pe/economia-y-finanzas/2026-11-16/inei-economia-crecio-243-en-setiembre-pero-la-mineria-y-el-sector-agropecuario-retrocedieron/"}, {"n": "Energiminas", "u": "https://energiminas.com/2026/11/16/inei-produccion-nacional-crecio-243-pero-decae-sector-mineria-e-hidrocarburos-en-632/"}, {"n": "El Peruano", "u": "https://elperuano.pe/noticia/308131-inei-registra-crecimiento-del-consumo-de-cemento-de-122"}], "img": {"u": "https://images.unsplash.com/photo-1571223641822-b82408a0e705?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Mina a tajo abierto", "by": "Unsplash", "link": "https://unsplash.com/photos/oF7hh97lVqA?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "credito", "cat": "peru", "tag": "Finanzas", "date": "2026-11-02", "title": "El crédito al sector privado crece 10,3 % y el consumo lidera", "dek": "Los préstamos de consumo se aceleraron a 13,2 % anual en setiembre; los hipotecarios, a 7,8 %.", "body": ["El crédito total al sector privado (bancos, financieras, cajas y cooperativas) mantuvo un crecimiento interanual de 10,3 % en setiembre de 2026 y llegó a S/ 469 363 millones, según el BCRP.", "El crédito a personas se aceleró de 10,6 % a 11,0 %, impulsado por el consumo, que pasó de crecer 12,7 % a 13,2 %. El crédito hipotecario subió de 7,6 % a 7,8 %.", "El crédito a empresas, en cambio, moderó su avance de 10,2 % a 9,8 %."], "why": "Un crédito que crece a doble dígito con inflación al alza es una de las razones por las que el BCRP decidió subir la tasa: más préstamos para consumo significan más demanda presionando los precios.", "data": [["Crédito total", "+10,3 %"], ["Consumo", "+13,2 %"], ["Hipotecario", "+7,8 %"], ["Empresas", "+9,8 %"]], "concepts": ["tasa"], "sources": [{"n": "Andina", "u": "https://andina.pe/agencia/noticia-credit-to-the-private-sector-in-peru-grows-103-yearonyear-in-september-2026-1098300.aspx"}, {"n": "Energiminas", "u": "https://energiminas.com/2026/11/16/bcr-credito-al-sector-privado-se-expande-103-interanual-en-setiembre/"}, {"n": "El Peruano", "u": "https://elperuano.pe/noticia/308692-prestamos-hipotecarios-y-de-consumo-se-dinamizan"}], "img": {"u": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Pago con tarjeta", "by": "Unsplash", "link": "https://unsplash.com/photos/Q59HmzK38eQ?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "rmv", "cat": "peru", "tag": "Empleo", "date": "2026-10-01", "title": "El sueldo mínimo sube a S/ 1 230 y llegará a S/ 1 300 en 2027", "dek": "El alza total de S/ 170 se aplica en dos tramos. Las microempresas recibirán un bono temporal.", "body": ["Mediante el Decreto Supremo 015-2026-TR, el Gobierno elevó la Remuneración Mínima Vital (RMV) de S/ 1 130 a S/ 1 230 desde el 1 de octubre de 2026.", "El segundo tramo, de S/ 70, llevará la RMV a S/ 1 300 en el primer semestre de 2027. El acuerdo se alcanzó en el Consejo Nacional de Trabajo.", "El Gobierno anunció un bono de S/ 100 por trabajador para microempresas de 2 a 10 empleados, para amortiguar el impacto del alza."], "why": "La RMV sirve de referencia para gratificaciones, CTS y asignación familiar. Para un economista, el debate es el equilibrio entre poder adquisitivo y el riesgo de más informalidad en empresas pequeñas.", "data": [["Antes", "S/ 1 130"], ["Desde 1 oct 2026", "S/ 1 230"], ["Meta 2027", "S/ 1 300"], ["Bono mypes", "S/ 100"]], "concepts": ["rmv"], "sources": [{"n": "El Peruano", "u": "https://elperuano.pe/noticia/305663-gobierno-oficializa-incremento-de-la-remuneracion-minima-vital-a-s-1300-en-dos-tramos"}, {"n": "Bloomberg Línea", "u": "https://www.bloomberglinea.com/latinoamerica/peru/sueldo-minimo-en-peru-cuanto-sube-en-octubre-y-cuando-volvera-a-subir/"}, {"n": "Cámara de Comercio de Lima", "u": "https://lacamara.pe/?p=101260"}], "img": {"u": "https://images.unsplash.com/photo-1611874498806-28f836f9f1ff?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Trabajadores en Lima", "by": "Unsplash", "link": "https://unsplash.com/photos/8wGaKutI3IQ?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "dolar", "cat": "mercados", "tag": "Tipo de cambio", "date": "2026-11-20", "title": "El dólar retrocede y cierra cerca de S/ 3,38", "dek": "El sol se fortalece en noviembre; a mediados de mes la referencia oficial de la Sunat bajó de S/ 3,40.", "body": ["El tipo de cambio cerró el jueves 20 de noviembre alrededor de S/ 3,38, según Gestión, con una tendencia a la baja en lo que va del mes.", "El 13 de noviembre, la cotización ya se ubicaba en S/ 3,401 (compra) y S/ 3,407 (venta). A mediados de mes, el BCRP registraba todavía un alza acumulada de 1,22 % en el año.", "El fortalecimiento del sol coincide con el alza de la tasa del BCRP, que hace más atractivos los activos en soles."], "why": "Un sol más fuerte abarata importaciones y ayuda a contener la inflación, pero reduce los ingresos en soles de los exportadores.", "data": [["Cierre 20 nov", "≈ S/ 3,38"], ["13 nov (venta)", "S/ 3,407"], ["Variación 2026 (al 16 nov)", "+1,22 %"]], "concepts": ["tc"], "sources": [{"n": "Gestión", "u": "https://gestion.pe/economia/mercados/tipo-de-cambio-dolar-hoy-en-peru-cuanto-esta-el-precio-del-dolar-este-viernes-21-de-noviembre-dolares-a-soles-compra-y-venta-bcrp-noticia/"}, {"n": "TuCambista", "u": "https://tucambista.pe/noticias/dolares-a-soles-16-noviembre-2026"}, {"n": "TuCambista", "u": "https://tucambista.pe/noticias/dolares-a-soles-13-noviembre-2026"}], "img": {"u": "https://images.unsplash.com/photo-1623118176012-9b0c6fa0712d?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Billetes de dólar", "by": "Unsplash", "link": "https://unsplash.com/photos/wTO6MWpMrJk?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "fed", "cat": "mundo", "tag": "Estados Unidos", "date": "2026-11-18", "title": "La Fed mantiene sus tasas en 3,75 %–4 %, pero sus minutas anticipan alzas", "dek": "Casi todos los funcionarios creen que tendrán que subir tasas en los próximos meses. La próxima decisión es el 9 de diciembre.", "body": ["La Reserva Federal de Estados Unidos mantuvo el 28 de octubre su tasa de fondos federales en el rango de 3,75 % a 4 %, con una votación de 10 a 2. Lisa Cook y Beth Hammack votaron por subirla un cuarto de punto.", "Las minutas publicadas el 18 de noviembre muestran que casi todos los funcionarios consideran probable subir tasas en los próximos meses para que la inflación regrese al 2 %.", "La Fed, presidida por Kevin Warsh, también anunció que en 2027 tendrá siete reuniones de política monetaria en lugar de ocho."], "why": "Las tasas de la Fed mueven el dólar en todo el mundo. Si suben, el dólar suele fortalecerse y los capitales salen de economías emergentes como el Perú, presionando el tipo de cambio.", "data": [["Rango actual", "3,75–4,00 %"], ["Votación", "10–2"], ["Inflación EE. UU. (set)", "3,7 %"], ["Próxima decisión", "9 dic 2026"]], "concepts": ["fomc", "tasa"], "sources": [{"n": "Emol / Bloomberg (minutas)", "u": "https://www.emol.com/noticias/Economia/2026/11/18/1217505/minutas-de-la-fed.html"}, {"n": "Emol (decisión)", "u": "https://www.emol.com/noticias/Economia/2026/10/28/1215455/fed-tasas-interes-estados-unidos.html"}, {"n": "Telemundo", "u": "https://www.telemundo.com/noticias/noticias-telemundo/economia/la-reserva-federal-mantiene-las-tasas-de-interes-sin-cambios-pese-al-a-rcna606177"}], "img": {"u": "https://images.unsplash.com/photo-1581097543550-b3cbe2e6ea6e?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Capitolio de Washington D.C.", "by": "Harold Mendoza", "link": "https://unsplash.com/@haroldrmendoza?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "petroleo", "cat": "mundo", "tag": "Energía", "date": "2026-11-18", "title": "El petróleo cae: el Brent pierde cerca de un tercio desde su máximo de octubre", "dek": "La Agencia Internacional de la Energía estima que la oferta mundial ya supera a la demanda por primera vez desde el inicio de la guerra con Irán.", "body": ["El Brent cayó 1,28 % el 18 de noviembre, hasta US$ 91,95 por barril, por expectativas de mayor oferta, pese a nuevas tensiones en Medio Oriente.", "Según la AIE, el Brent cayó 32 % entre su máximo del 8 de octubre (US$ 136) y mediados de noviembre (US$ 93), a medida que se recuperaron las exportaciones del Golfo.", "En su informe del 13 de noviembre, la AIE estimó que la oferta mundial de crudo supera ahora a la demanda."], "why": "El petróleo explica buena parte de la inflación peruana de 2026: los combustibles subieron 43,67 % en doce meses en Lima. Si el crudo sigue bajando, debería aliviar los precios del transporte.", "data": [["Brent 18 nov", "US$ 91,95"], ["Máximo 8 oct", "US$ 136"], ["Caída desde el máximo", "≈ −32 %"]], "concepts": ["brent"], "sources": [{"n": "Emol / AFP", "u": "https://www.emol.com/noticias/Economia/2026/11/18/1217517/precios-petroleo-internacional-bajan-oferta.html"}, {"n": "Le Grand Continent (datos AIE)", "u": "https://legrandcontinent.eu/es/?p=118348"}, {"n": "Bloomberg Línea", "u": "https://www.bloomberglinea.com/mercados/petroleo-cae-por-debajo-de-us93-pese-a-nuevos-ataques-en-medio-oriente-y-tension-en-ormuz/"}], "img": {"u": "https://images.unsplash.com/photo-1778124691381-ee0ef169500c?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Bomba de extracción de petróleo al atardecer", "by": "Nils Huenerfuerst", "link": "https://unsplash.com/@nhuenerfuerst?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "cobre", "cat": "mercados", "tag": "Materias primas", "date": "2026-11-18", "title": "El cobre retrocede tras el ajuste en las acciones de inteligencia artificial", "dek": "Cerró la semana al 13 de noviembre en US$ 6,17 la libra, aunque su promedio de 2026 sigue 39,5 % por encima del de 2025.", "body": ["Según Cochilco, el cobre cerró en US$ 6,17 la libra la semana al 13 de noviembre, con una caída semanal de 2,47 %. El promedio anual alcanza US$ 6,16, 39,5 % más que en igual periodo de 2025.", "El 18 de noviembre el metal se desplomó 4,9 %, golpeado por la caída de las apuestas en inteligencia artificial y un dólar fuerte.", "La oferta física sigue ajustada: los inventarios en la bolsa de Shanghái cayeron a su nivel más bajo en casi tres años."], "why": "El cobre es el principal producto de exportación del Perú. Su precio influye en los ingresos fiscales, la inversión minera y el tipo de cambio.", "data": [["Cierre 13 nov", "US$ 6,17/lb"], ["Variación semanal", "−2,47 %"], ["Promedio 2026", "US$ 6,16/lb"], ["18 nov", "−4,9 %"]], "concepts": ["commodity"], "sources": [{"n": "Cochilco (vía Portal Minero)", "u": "https://www.portalminero.com/wp/wp-content/uploads/panel/informes/cochilco-20261116-BdI8iNe3.pdf"}, {"n": "Reporte Minero", "u": "https://reporteminero.cl/noticia/noticias/2026/11/cobre-desploma-4-por-ciento-ia-dolar-mercado-fisico-china"}, {"n": "Reporte Minero", "u": "https://www.reporteminero.cl/noticia/noticias/2026/11/cobre-rebota-escasez-fisica-china-trafigura-record"}], "img": {"u": "https://images.unsplash.com/photo-1584774354932-62ceb99e6053?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Espiral de cobre", "by": "Ra Dragon", "link": "https://unsplash.com/@radragon?utm_source=pulso_economico&utm_medium=referral"}}, {"id": "fmi", "cat": "mundo", "tag": "Economía global", "date": "2026-10-13", "title": "El FMI proyecta 3,1 % de crecimiento mundial gracias a la inversión en IA", "dek": "La inversión en inteligencia artificial compensa el choque energético por la guerra en Medio Oriente. América Latina crecería 2,3 %.", "body": ["En sus Perspectivas de la Economía Mundial de octubre, el FMI elevó ligeramente su proyección de crecimiento global para 2026 a 3,1 %, desde 3,0 % en julio, y estimó 3,4 % para 2027.", "El organismo atribuye la resiliencia a la fuerte inversión en inteligencia artificial, que amortigua el impacto de la guerra en Medio Oriente sobre la energía.", "Para América Latina proyecta 2,3 % en 2026 y 2,5 % en 2027. Su economista jefe, Silvana Tenreyro, advirtió que la resiliencia mundial está llegando a sus límites."], "why": "Las proyecciones del FMI son la referencia para comparar países. Que el crecimiento dependa de pocos sectores (IA) es un riesgo: si ese impulso se corrige, el mundo crecería menos.", "data": [["Mundo 2026", "3,1 %"], ["Mundo 2027", "3,4 %"], ["América Latina 2026", "2,3 %"]], "concepts": ["pbi"], "sources": [{"n": "El Economista", "u": "https://eleconomista.com.ar/internacional/perspectivas-fmi-economia-mundial-resiste-gracias-inversiones-ia-pero-luna-miel-sera-eterna-n98830"}, {"n": "CRHoy / AFP", "u": "https://crhoy.com/economia/el-fmi-es-moderadamente-optimista-sobre-la-economia-mundial-pese-a-guerra-en-oriente-medio/"}, {"n": "Bloomberg Línea", "u": "https://www.bloomberglinea.com/economia/fmi-preve-que-el-crecimiento-mundial-repunte-al-34-en-2027-pero-advierte-sobre-riesgos-economicos/"}], "img": {"u": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?ixlib=rb-4.1.0&auto=format&fit=crop&w=1200&h=720&q=75", "alt": "Contenedores en un barco de carga", "by": "Andy Li", "link": "https://unsplash.com/@andylid0?utm_source=pulso_economico&utm_medium=referral"}}], "glossary": {"tasa": ["Tasa de referencia", "Tasa de interés que el banco central fija para los préstamos interbancarios. Al subirla encarece el crédito y frena la inflación; al bajarla estimula la economía."], "pb": ["Punto básico (pb)", "Una centésima de punto porcentual: 25 pb = 0,25 %. Se usa para expresar cambios en tasas de interés."], "meta": ["Rango meta de inflación", "El BCRP busca que la inflación anual esté entre 1 % y 3 %, con 2 % como centro."], "ipc": ["IPC", "Índice de Precios al Consumidor: mide cómo cambia el precio de una canasta de bienes y servicios que compran los hogares. Lo calcula el INEI."], "sub": ["Inflación subyacente", "Inflación sin alimentos ni energía. Muestra la tendencia de fondo de los precios, sin los choques más volátiles."], "pbi": ["PBI", "Producto Bruto Interno: valor de todo lo que produce un país en un periodo. Su variación mide el crecimiento económico."], "tc": ["Tipo de cambio", "Precio de una moneda en términos de otra; en el Perú, cuántos soles cuesta un dólar."], "rmv": ["RMV", "Remuneración Mínima Vital: el sueldo mínimo legal para trabajadores del régimen privado a jornada completa."], "fomc": ["FOMC", "Comité Federal de Mercado Abierto: el órgano de la Reserva Federal que decide las tasas de interés de Estados Unidos."], "brent": ["Brent", "Petróleo del Mar del Norte que sirve de referencia para el precio internacional del crudo."], "commodity": ["Materia prima (commodity)", "Bien básico e intercambiable, como el cobre o el petróleo, cuyo precio se fija en mercados internacionales."]}, "hero": {"u": "https://images.unsplash.com/photo-1786477836233-e8363e2e68d6?ixlib=rb-4.1.0&auto=format&fit=crop&w=1600&h=700&q=75", "alt": "Costa de Lima, Perú", "by": "Josh", "link": "https://unsplash.com/@jack_of_some_trades?utm_source=pulso_economico&utm_medium=referral"}}</script>
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','set','oct','nov','dic'];
+const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+const DIA=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const CAT={peru:'Perú',mundo:'Mundo',mercados:'Mercados'};
+const fdate=s=>{const[y,m,d]=s.split('-').map(Number);return d+' '+MES[m-1]+' '+y};
+const host=u=>{try{return new URL(u).hostname.replace('www.','')}catch(e){return ''}};
+const ph=(m,c,tag,big)=>m?`<div class="ph" data-c="${c}" data-t="${esc(tag)}"><img src="${esc(m.u)}" alt="${esc(m.alt)}" loading="${big?'eager':'lazy'}" decoding="async" onerror="this.remove()"><a class="cr" href="${esc(m.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${m.by==='Unsplash'?'Foto vía Unsplash':'Foto: '+esc(m.by)+' / Unsplash'}</a></div>`:'';
+const MINI={'inflacion-oct':`<div class="mini"><svg viewBox="0 0 640 150" role="img" aria-label="Inflación de Lima 5,25 % frente al rango meta del BCRP de 1 % a 3 %">
+<text x="0" y="20" font-size="16" fill="currentColor" fill-opacity=".65" font-family="Inter,sans-serif">Inflación anual de Lima vs. rango meta del BCRP</text>
+<rect x="0" y="40" width="640" height="34" rx="6" fill="currentColor" fill-opacity=".06"/>
+<rect class="bar" x="0" y="44" width="478" height="26" rx="5" fill="var(--red)"/>
+<rect x="91" y="36" width="91" height="42" rx="3" fill="#2fb36a" fill-opacity=".45" stroke="#1f8a4c" stroke-width="2"/>
+<text x="490" y="64" font-size="22" font-weight="700" fill="var(--red)" font-family="Inter,sans-serif">5,25 %</text>
+<text x="136" y="100" text-anchor="middle" font-size="14" fill="currentColor" fill-opacity=".75" font-family="Inter,sans-serif">meta 1 %–3 %</text>
+${[0,1,2,3,4,5,6,7].map(v=>`<text x="${v*91}" y="135" text-anchor="${v===0?'start':v===7?'end':'middle'}" font-size="13" fill="currentColor" fill-opacity=".5" font-family="Inter,sans-serif">${v} %</text>`).join('')}
+</svg></div>`};
+let D=null,cat='all',q='';
+function hm(iso){const t=new Date(iso);return t.toLocaleString('es-PE',{timeZone:'America/Lima',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+function init(data){D=data;
+const now=new Date();$('today').textContent='Lima · '+now.toLocaleDateString('es-PE',{timeZone:'America/Lima',weekday:'long',day:'numeric',month:'long',year:'numeric'});
+$('upd').textContent='Actualizado '+hm(D.updated)+' · próxima revisión '+hm(D.next);
+const tk=D.ticker.map(t=>`<a class="tk" href="${esc(t.src)}" target="_blank" rel="noopener"><b>${esc(t.k)}</b><span class="v">${esc(t.v)}</span><span class="${t.dir}">${t.dir==='up'?'▲':t.dir==='down'?'▼':'■'} ${esc(t.d)}</span><span class="meta">${esc(t.when)}</span></a>`).join('');
+$('track').innerHTML=tk+tk;
+$('ind').innerHTML=D.ticker.map(t=>`<a class="ic" href="${esc(t.src)}" target="_blank" rel="noopener"><span class="k">${esc(t.k)}</span><span class="v">${esc(t.v)}</span><span class="d ${t.dir}">${t.dir==='up'?'▲':t.dir==='down'?'▼':'■'} ${esc(t.d)}</span><span class="s">${esc(t.when)} · fuente: ${esc(host(t.src))} ↗</span></a>`).join('')+`<a class="ic" href="#metodo"><span class="k">Próxima revisión</span><span class="v" style="font-size:26px">${esc(hm(D.next))}</span><span class="d flat">cada 6 horas</span><span class="s">Ver método →</span></a>`;
+const L=D.articles.find(a=>a.lead)||D.articles[0];
+$('lead').innerHTML=ph(D.hero||L.img,L.cat,'Lima, Perú',true)+`<p class="kick">${esc(L.tag)} · ${fdate(L.date)}</p><h1 data-open="${L.id}">${esc(L.title)}</h1><p class="dek">${esc(L.dek)}</p>
+<div class="fig"><svg viewBox="0 0 640 220" role="img" aria-label="Escalón de la tasa de referencia del BCRP: 14 meses en 4,25 % y alza a 4,50 % en noviembre de 2026">
+<line x1="40" y1="170" x2="620" y2="170" stroke="currentColor" stroke-opacity=".15"/>
+<line x1="40" y1="70" x2="620" y2="70" stroke="currentColor" stroke-opacity=".15" stroke-dasharray="4 6"/>
+<path d="M40 170 H470 V70 H620" fill="none" stroke="var(--red)" stroke-width="5" stroke-linejoin="round" pathLength="1" class="stepline"/>
+<circle cx="470" cy="70" r="8" fill="var(--red)"/>
+<text x="40" y="30" font-size="20" fill="currentColor" fill-opacity=".65" font-family="Inter,sans-serif">Tasa de referencia del BCRP</text>
+<text x="48" y="154" font-size="22" font-weight="700" fill="currentColor" font-family="Inter,sans-serif">4,25 % · 14 meses sin cambios</text>
+<text x="620" y="52" text-anchor="end" font-size="54" font-weight="700" fill="var(--red)" font-family="Newsreader,Georgia,serif">4,50 %</text>
+<text x="620" y="104" text-anchor="end" font-size="20" fill="currentColor" fill-opacity=".65" font-family="Inter,sans-serif">nov 2026 · +25 pb</text>
+</svg>
+<div class="fig-cap"><span>Primera alza desde enero de 2023</span><span>Fuente: BCRP vía Andina y Gestión</span></div></div>
+<button class="btn" type="button" data-open="${L.id}">Leer la nota y ver fuentes →</button>`;
+const rest=[...D.articles].filter(a=>a!==L).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+$('latest').innerHTML=rest.map(a=>`<li><button type="button" data-open="${a.id}"><span><span class="meta">${CAT[a.cat]} · ${fdate(a.date)}</span><h3>${esc(a.title)}</h3></span></button></li>`).join('');
+$('gl').innerHTML=Object.values(D.glossary).map(g=>`<details><summary>${esc(g[0])}</summary><p>${esc(g[1])}</p></details>`).join('');
+const h=Number(new Date().toLocaleString('en-US',{timeZone:'America/Lima',hour:'numeric',hour12:false}))%24;
+$('clock').innerHTML=[0,6,12,18].map(x=>`<div class="slot${h>=x&&h<x+6?' on':''}"><b>${String(x).padStart(2,'0')}:00</b><span class="meta">${h>=x&&h<x+6?'ciclo actual':'revisión'}</span></div>`).join('');
+feed();route()}
+function feed(){
+const t=q.toLowerCase();
+const list=D.articles.filter(a=>(cat==='all'||a.cat===cat)&&(!t||(a.title+' '+a.dek+' '+a.tag+' '+a.body.join(' ')).toLowerCase().includes(t))).sort((a,b)=>b.date.localeCompare(a.date));
+$('feed-title').textContent=cat==='all'?'Todas las noticias':CAT[cat];
+$('feed').innerHTML=list.length?list.map(a=>`<button type="button" class="card" data-open="${a.id}">${ph(a.img,a.cat,a.tag)}<span class="row"><span class="region">${CAT[a.cat]}</span><span class="meta">${fdate(a.date)}</span></span><span class="kick" style="color:var(--soft)">${esc(a.tag)}</span><h3>${esc(a.title)}</h3><p>${esc(a.dek)}</p><span class="more">Leer + ${a.sources.length} fuentes →</span></button>`).join(''):'<p class="empty">No hay noticias con esa búsqueda. Prueba con otra palabra.</p>'}
+function open(id){const a=D.articles.find(x=>x.id===id);if(!a)return;
+const g=a.concepts.map(c=>D.glossary[c]?`<button type="button" class="chip" data-def="${c}">${esc(D.glossary[c][0])}</button>`:'').join('');
+$('dlg-in').innerHTML=`<div class="dlg-top"><p class="kick">${CAT[a.cat]} · ${esc(a.tag)} · ${fdate(a.date)}</p><button class="x" type="button" id="close" aria-label="Cerrar">×</button></div>
+<h2 id="d-title">${esc(a.title)}</h2><p class="dek">${esc(a.dek)}</p>${ph(a.img,a.cat,a.tag,true)}
+<div class="body">${a.body.map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+${MINI[a.id]||''}<table class="dtab"><tbody>${a.data.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table>
+<div class="why"><b>¿Por qué importa?</b>${esc(a.why)}</div>
+<p class="kick" style="color:var(--soft)">Conceptos clave</p><div class="chips">${g}</div><p class="def" id="def"></p>
+<p class="kick" style="margin-bottom:8px">Fuentes consultadas</p>
+<ul class="srcs">${a.sources.map(s=>`<li><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}<span>${esc(host(s.u))} ↗</span></a></li>`).join('')}</ul>
+<div class="cite"><button class="btn ghost" type="button" id="cite" style="margin-top:0">Copiar cita para tu trabajo</button><button class="btn ghost" type="button" id="share" style="margin-top:0">Copiar enlace de la nota</button></div>`;
+const dl=$('dlg');if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute('open','')}}
+if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);
+$('close').onclick=()=>dl.close();
+$('cite').onclick=async e=>{const s=a.sources[0];const[y,m,d]=a.date.split('-').map(Number);const txt=`${s.n}. (${y}, ${d} de ${MESL[m-1]}). ${a.title}. ${s.u}`;try{await navigator.clipboard.writeText(txt);e.target.textContent='Cita copiada'}catch(err){e.target.textContent=txt}};
+$('share').onclick=async e=>{try{await navigator.clipboard.writeText(location.href.split('#')[0]+'#'+id);e.target.textContent='Enlace copiado'}catch(err){e.target.textContent='#'+id}};
+$('dlg-in').querySelectorAll('[data-def]').forEach(b=>b.onclick=()=>{const g=D.glossary[b.dataset.def];$('def').innerHTML='<b style="color:var(--ink)">'+esc(g[0])+':</b> '+esc(g[1])})}
+function route(){const id=location.hash.slice(1);if(D&&D.articles.some(a=>a.id===id))open(id)}
+document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){open(o.dataset.open);return}
+const c=e.target.closest('[data-c]');if(c){cat=c.dataset.c;document.querySelectorAll('[data-c]').forEach(b=>b.setAttribute('aria-pressed',b===c));feed();$('noticias').scrollIntoView()}});
+$('dlg').addEventListener('close',()=>{if(location.hash.length>1&&D.articles.some(a=>'#'+a.id===location.hash))history.replaceState(null,'',location.pathname+location.search)});
+$('dlg').addEventListener('click',e=>{if(e.target===$('dlg'))$('dlg').close()});
+$('q').addEventListener('input',e=>{q=e.target.value.trim();feed()});
+window.addEventListener('hashchange',route);
+const seed=JSON.parse($('seed').textContent);
+fetch('data/news.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>init(d.updated>=seed.updated?d:seed)).catch(()=>init(seed));
+}
+</script>
+</body>
+</html>
