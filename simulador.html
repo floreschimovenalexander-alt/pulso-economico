@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de reclamos</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Archivo+Narrow:wght@500;700&display=swap">
+<style>
+/* VOICE: claro y práctico, como un buen formulario ciudadano.
+   IDEA: la Hoja de Reclamación: un formulario de papel con sello y talón de plazo.
+   PICTURE: el calendario de 15 días hábiles con el sello de la fecha límite.
+   COLOUR and TYPE: papel #FBFAF6, tinta #16202E, sello rojo #C2271D, azul de formulario #1F4E8C; Archivo + Archivo Narrow.
+   LAYOUT: controles a la izquierda, hoja con el resultado a la derecha; en móvil se apilan. */
+:root{color-scheme:light dark;
+--bg:light-dark(#EEF0F2,#0E141C);--paper:light-dark(#FBFAF6,#161E29);--ink:light-dark(#16202E,#E8ECF1);
+--soft:light-dark(#4F5B6B,#A9B4C2);--line:light-dark(#D5D9DF,#2A3545);--red:light-dark(#C2271D,#FF6B5E);
+--blue:light-dark(#1F4E8C,#7FB0F0);--blueBg:light-dark(#E6EEF8,#1A2840);--wk:light-dark(#E4E6EA,#222C3A);--hol:light-dark(#FBE3E0,#3A1E1E)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Archivo,Arial,sans-serif;overflow-x:clip}
+.wrap{max-width:1240px;margin:0 auto;padding:clamp(20px,3vw,40px) max(4vw,16px)}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+h1{font-size:clamp(30px,4vw,46px);line-height:1.05;margin:0;text-wrap:balance;font-weight:800}
+.sub{color:var(--soft);margin:6px 0 0;max-width:62ch}
+.note{font-size:13px;color:var(--soft)}
+.grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:24px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px}
+.lbl{font:700 14px "Archivo Narrow",Arial,sans-serif;color:var(--soft);display:block;margin:18px 0 8px}
+.lbl:first-child{margin-top:0}
+.chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.chip{min-height:48px;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;font:600 16px Archivo,sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:var(--paper)}
+.probs{display:flex;flex-direction:column;gap:6px}
+.prob{text-align:left;min-height:44px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);font:15px/1.35 Archivo,sans-serif;cursor:pointer}
+.prob[aria-pressed=true]{border-color:var(--blue);background:var(--blueBg);font-weight:600}
+input{width:100%;min-height:44px;font:16px Archivo,sans-serif;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.sheet-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 24px;border-bottom:2px solid var(--ink);font:700 15px "Archivo Narrow",sans-serif;letter-spacing:.02em}
+.res{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;padding:22px 24px 8px}
+.big{font-size:clamp(34px,5vw,56px);font-weight:800;line-height:1.02;white-space:nowrap}
+.status{margin-top:6px;font-weight:600}
+.status.ok{color:var(--blue)}.status.late{color:var(--red)}
+.stamp{width:132px;height:132px;border:4px solid var(--red);border-radius:50%;display:grid;place-items:center;text-align:center;color:var(--red);transform:rotate(-12deg);font:700 15px/1.1 "Archivo Narrow",sans-serif;padding:10px;animation:stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+.stamp b{display:block;font-size:40px;line-height:1}
+@keyframes stamp{from{transform:rotate(-12deg) scale(1.6);opacity:0}}
+@media(prefers-reduced-motion:reduce){.stamp{animation:none}}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:14px 24px 6px}
+.wd{font:700 13px "Archivo Narrow",sans-serif;color:var(--soft);text-align:center}
+.d{border-radius:8px;min-height:54px;padding:5px 6px;font-size:13px;line-height:1.2;border:1.5px solid transparent;background:var(--blueBg)}
+.d .n{font-weight:700;font-size:15px}
+.d .t{color:var(--soft)}
+.d.we{background:var(--wk)}.d.ho{background:var(--hol)}
+.d.st{background:transparent;border-color:var(--ink)}
+.d.end{background:var(--red);color:#fff}.d.end .t{color:#fff}
+.d.pad{background:transparent}
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:4px 24px 14px;font-size:13px;color:var(--soft)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.fact{padding:16px 24px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact h3{font:700 14px "Archivo Narrow",sans-serif;color:var(--soft);margin:0 0 6px}
+.fact p{margin:0;font-size:15px}
+.case{border-top:1px solid var(--line);padding:16px 24px;background:var(--blueBg)}
+.case h3{font:700 14px "Archivo Narrow",sans-serif;color:var(--blue);margin:0 0 4px}
+.case p{margin:0}
+.case .src{font-size:13px;color:var(--soft);margin-top:4px}
+.letter{border-top:2px solid var(--ink);padding:16px 24px 22px}
+.letter-h{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.letter-h h3{font:700 14px "Archivo Narrow",sans-serif;color:var(--soft);margin:0}
+.copy{min-height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--ink);color:var(--paper);font:600 15px Archivo,sans-serif;cursor:pointer}
+.txt{white-space:pre-wrap;font-size:15px;line-height:1.6;background:var(--bg);border-radius:10px;padding:14px 16px;margin:0}
+.fine{font-size:13px;color:var(--soft);margin-top:14px}
+@media(max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}.sheet{order:-1}}
+@media(max-width:600px){.facts{grid-template-columns:minmax(0,1fr)}.fact{border-right:0;border-bottom:1px solid var(--line)}.res{grid-template-columns:minmax(0,1fr)}.stamp{width:104px;height:104px}.d{min-height:44px;font-size:11px}.d .t{display:none}.cal,.legend,.res,.fact,.case,.letter,.sheet-top{padding-left:14px;padding-right:14px}}
+</style>
+</head>
+<body>
+<div style="background:#121417;color:#E9ECF1;font:600 14px/1 Archivo,Arial,sans-serif;padding:12px max(4vw,16px);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between"><a href="consumidor.html" target="_top" style="color:#fff;text-decoration:none">← Pulso Económico · Especial Consumidor</a><span style="color:#A3AAB8">Demo del Grupo 6 · EID 2026-II</span></div>
+<div class="wrap">
+<header>
+<div>
+<h1>¿Te fallaron? Calcula tu plazo y arma tu reclamo</h1>
+<p class="sub">Elige el sector y el problema. El simulador cuenta los 15 días hábiles que tiene la empresa para responder, te dice qué derecho se vulneró y te escribe el reclamo.</p>
+</div>
+<p class="note">Simulador educativo del Grupo 6 · EID 2026-II. No es un servicio del Indecopi.</p>
+</header>
+<div class="grid">
+<form class="panel" id="f" autocomplete="off">
+<span class="lbl">1. Sector</span>
+<div class="chips" id="sectors"></div>
+<span class="lbl">2. ¿Qué pasó?</span>
+<div class="probs" id="probs"></div>
+<label class="lbl" for="fecha">3. Fecha en que reclamaste</label>
+<input type="date" id="fecha">
+<div class="two">
+<div><label class="lbl" for="prov">Empresa</label><input id="prov" value="Banco Ejemplo S.A."></div>
+<div><label class="lbl" for="monto">Monto (S/)</label><input id="monto" inputmode="decimal" value="1250"></div>
+</div>
+<label class="lbl" for="nom">Tu nombre</label>
+<input id="nom" value="Alexander Flores">
+<p class="fine">Datos de ejemplo: cámbialos con un caso del público.</p>
+</form>
+<section class="sheet" aria-live="polite">
+<div class="sheet-top"><span>HOJA DE RECLAMACIÓN · SIMULACIÓN</span><span id="hoy"></span></div>
+<div class="res">
+<div>
+<div class="note">La empresa debe responderte a más tardar el</div>
+<div class="big" id="deadline"></div>
+<div class="status" id="status"></div>
+</div>
+<div class="stamp" id="stamp"><div><b>15</b>DÍAS<br>HÁBILES</div></div>
+</div>
+<div class="cal" id="cal"></div>
+<div class="legend"><span><i style="background:var(--blueBg)"></i>Día hábil contado</span><span><i style="background:var(--wk)"></i>Fin de semana</span><span><i style="background:var(--hol)"></i>Feriado</span><span><i style="background:var(--red)"></i>Fecha límite</span></div>
+<div class="facts">
+<div class="fact"><h3>Derecho vulnerado</h3><p id="der"></p></div>
+<div class="fact"><h3>Qué puedes pedir</h3><p id="ped"></p></div>
+<div class="fact"><h3>Si no cumplen</h3><p>El Indecopi puede multar hasta 450 UIT (S/ 2 475 000 en 2026) y ordenar devolver o reparar.</p></div>
+</div>
+<div class="case"><h3>Caso real</h3><p id="caso"></p><p class="src" id="src"></p></div>
+<div class="letter">
+<div class="letter-h"><h3>Tu reclamo, listo para el Libro de Reclamaciones</h3><button type="button" class="copy" id="copy">Copiar</button></div>
+<p class="txt" id="carta"></p>
+<p class="fine">Plazo: art. 24 del Código de Protección y Defensa del Consumidor (Ley 31435). Se cuentan los feriados nacionales 2026–2027; un feriado regional puede mover la fecha. Si no responden o no te satisface: Indecopi, 224 7777 (Lima) o 0800-4-4040 (regiones).</p>
+</div>
+</section>
+</div>
+</div>
+<script>
+{
+const S={
+banca:{name:'Banca',prov:'Banco Ejemplo S.A.',items:[
+{t:'Hay un consumo o transferencia que no hice',d:'Idoneidad y seguridad: el banco debe proteger tus cuentas y tarjetas.',p:'La devolución (extorno) del monto y el bloqueo de la tarjeta.',w:'se registraron operaciones con mi tarjeta que no reconozco ni autoricé',c:'El Indecopi ordenó a Alfin Banco devolver S/ 264 179,90 a un cliente con 27 cargos no reconocidos y 5 cuentas abiertas sin su permiso.',s:'Res. 3934-2025/SPC-INDECOPI'},
+{t:'Me activaron una tarjeta o producto que no pedí',d:'Idoneidad: ningún producto se activa sin tu permiso expreso.',p:'Anular el producto, devolver lo cobrado y corregir tu reporte en centrales de riesgo.',w:'activaron a mi nombre un producto financiero que nunca solicité',c:'En Tacna, un banco fue sancionado por entregar una tarjeta sin autorización; debe devolver unos S/ 4 777 y rectificar el reporte de la clienta.',s:'Res. 0006-2026/INDECOPI-TAC'},
+{t:'No me dejan reclamar o me piden requisitos de más',d:'Derecho a reclamar: el Libro de Reclamaciones no admite trabas.',p:'Que registren tu reclamo sin requisitos adicionales.',w:'me pusieron trabas y requisitos no previstos para registrar mi reclamo',c:'Banco Falabella fue multado con S/ 336 mil en primera instancia por mecanismos que dificultaban presentar reclamos.',s:'Comisión de Protección al Consumidor, mayo 2026'},
+{t:'Contaron mi deuda a terceros',d:'Prohibición de métodos abusivos de cobranza.',p:'Que cese la práctica y se sancione al banco.',w:'informaron de mi deuda a terceras personas como método de cobranza',c:'El Indecopi multó a un banco por enviar notificaciones de deuda a un domicilio no autorizado.',s:'Res. Final 352-2026/INDECOPI-AQP'}]},
+turismo:{name:'Turismo',prov:'Aerolínea Ejemplo S.A.C.',items:[
+{t:'Cancelaron o retrasaron mi vuelo',d:'Idoneidad: cumplir el itinerario o darte una solución.',p:'Reprogramación sin costo o devolución del pasaje.',w:'mi vuelo fue cancelado o retrasado sin una solución adecuada',c:'Una aerolínea deberá devolver el pasaje a un consumidor por retrasar más de cinco horas, sin justificación, un vuelo Arequipa–Lima.',s:'El Peruano, 2026'},
+{t:'Perdieron o dañaron mi equipaje',d:'Deber de cuidado: la aerolínea responde desde que recibe tu maleta.',p:'Indemnización o reparación del daño.',w:'mi equipaje fue extraviado o llegó dañado',c:'El Indecopi recordó que las aerolíneas responden por pérdida, robo o daño del equipaje y pueden ser sancionadas hasta con 450 UIT.',s:'Indecopi, julio 2026'},
+{t:'La agencia no cumplió el paquete ni devolvió el dinero',d:'Idoneidad: entregar lo contratado o devolver lo pagado.',p:'Devolución del dinero pagado.',w:'no ejecutaron el paquete turístico contratado ni me devolvieron lo pagado',c:'Una agencia fue sancionada en Lambayeque por no devolver USD 2 094 de un paquete a México que no ejecutó.',s:'Res. Final 0102-2026/INDECOPI-LAM'},
+{t:'Me presionaron para comprar un paquete con premio',d:'Prohibición de métodos comerciales agresivos o engañosos.',p:'Anular el contrato y devolver lo pagado.',w:'me presionaron durante horas y me ofrecieron premios condicionados para firmar',c:'Siete agencias de viajes de Lima recibieron multas por 380,28 UIT (más de S/ 2 millones) por estas prácticas.',s:'Comisión de Protección al Consumidor N.° 3, 2025'}]},
+autos:{name:'Autos',prov:'Concesionaria Ejemplo S.A.',items:[
+{t:'Mi auto nuevo vino con un defecto de fábrica',d:'Garantía legal: todo vehículo nuevo debe estar libre de defectos de fábrica.',p:'Reparación gratuita, cambio del vehículo o devolución.',w:'el vehículo nuevo presenta un defecto de fábrica que no ha sido reparado',c:'Dercocenter no reparó el sunroof defectuoso de un Haval por falta de repuestos; la Sala confirmó la infracción.',s:'Res. 0509-2026/SPC-INDECOPI'},
+{t:'Mi modelo tiene una falla de seguridad',d:'Deber de alertar: la marca debe avisar y revisar gratis (art. 28).',p:'La revisión y reparación gratuita del vehículo.',w:'mi vehículo está comprendido en una falla de seguridad y no me han atendido',c:'Derco Perú fue hallada responsable por no alertar a tiempo una falla de dirección en más de 700 Renault Oroch.',s:'Res. Final 036-2025/CC3'},
+{t:'El banco vendió mi auto sin avisarme',d:'Idoneidad: no generar expectativas y luego actuar en contra.',p:'Una indemnización y la sanción al banco.',w:'vendieron mi vehículo en garantía mientras negociaba el refinanciamiento, sin avisarme',c:'Scotiabank fue multado con S/ 55 000 por vender el auto de una clienta mientras negociaba con ella.',s:'Indecopi, marzo 2026'}]}};
+const FER=['2026-01-01','2026-04-02','2026-04-03','2026-05-01','2026-06-07','2026-06-29','2026-07-23','2026-07-28','2026-07-29','2026-08-06','2026-08-30','2026-10-08','2026-11-01','2026-12-08','2026-12-09','2026-12-25','2027-01-01','2027-03-25','2027-03-26','2027-05-01','2027-06-07','2027-06-29','2027-07-23','2027-07-28','2027-07-29','2027-08-06','2027-08-30','2027-10-08','2027-11-01','2027-12-08','2027-12-09','2027-12-25'];
+const $=id=>document.getElementById(id);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','set','oct','nov','dic'];
+const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+const DIA=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const today=new Date();today.setHours(0,0,0,0);
+let sec='banca',pi=0;
+$('fecha').value=iso(today);
+$('hoy').textContent='Hoy: '+today.getDate()+' '+MES[today.getMonth()]+' '+today.getFullYear();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function drawSectors(){$('sectors').innerHTML=Object.keys(S).map(k=>`<button type="button" class="chip" data-s="${k}" aria-pressed="${k===sec}">${S[k].name}</button>`).join('')}
+function drawProbs(){$('probs').innerHTML=S[sec].items.map((it,i)=>`<button type="button" class="prob" data-p="${i}" aria-pressed="${i===pi}">${it.t}</button>`).join('')}
+function count(start){const days=[];let d=new Date(start),n=0;days.push({d:new Date(d),k:'st'});
+while(n<15){d.setDate(d.getDate()+1);const w=d.getDay(),f=FER.includes(iso(d));let k='h';if(w===0||w===6)k='we';else if(f)k='ho';else n++;days.push({d:new Date(d),k:k,n:k==='h'?n:0})}
+return days}
+function render(){
+const it=S[sec].items[pi],fv=$('fecha').value||iso(today),start=parse(fv),days=count(start),end=days[days.length-1].d;
+$('deadline').textContent=DIA[end.getDay()]+' '+end.getDate()+' '+MES[end.getMonth()]+' '+end.getFullYear();
+const left=days.filter(x=>x.k==='h'&&x.d>today).length;
+const st=$('status');
+if(end<today){st.className='status late';st.textContent='El plazo ya venció: si no te respondieron, ya puedes ir al Indecopi.'}
+else{st.className='status ok';st.textContent=left===0?'Hoy vence el plazo.':'Faltan '+left+' día'+(left===1?'':'s')+' hábil'+(left===1?'':'es')+' para la respuesta.'}
+const pad=(start.getDay()+6)%7;
+let h=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(x=>`<div class="wd">${x}</div>`).join('')+'<div class="d pad"></div>'.repeat(pad);
+h+=days.map((x,i)=>{const last=i===days.length-1;const cls=last?'end':x.k;const lab=x.k==='st'?'Reclamo':x.k==='ho'?'Feriado':x.k==='we'?'':(last?'Límite':'Día '+x.n);
+return `<div class="d ${cls}"><div class="n">${x.d.getDate()} ${MES[x.d.getMonth()]}</div><div class="t">${lab}</div></div>`}).join('');
+$('cal').innerHTML=h;
+const s=$('stamp');s.style.animation='none';void s.offsetWidth;s.style.animation='';
+$('der').textContent=it.d;$('ped').textContent=it.p;$('caso').textContent=it.c;$('src').textContent=it.s;
+const nom=$('nom').value.trim()||'[tu nombre]',prov=$('prov').value.trim()||'[empresa]',m=$('monto').value.trim();
+const fs=start.getDate()+' de '+MESL[start.getMonth()]+' de '+start.getFullYear(),fe=end.getDate()+' de '+MESL[end.getMonth()]+' de '+end.getFullYear();
+$('carta').innerHTML=esc(`Yo, ${nom}, con DNI ________, presento el ${fs} este reclamo contra ${prov}, porque ${it.w}.${m?` Monto involucrado: S/ ${m}.`:''}
+
+Solicito: ${it.p}
+
+Conforme al art. 24 del Código de Protección y Defensa del Consumidor, espero una respuesta por escrito en un plazo máximo de 15 días hábiles, es decir, hasta el ${fe}.
+
+Firma: ____________________`)}
+$('sectors').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;sec=b.dataset.s;pi=0;$('prov').value=S[sec].prov;drawSectors();drawProbs();render()});
+$('probs').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;pi=+b.dataset.p;drawProbs();render()});
+$('f').addEventListener('input',render);
+$('f').addEventListener('submit',e=>e.preventDefault());
+$('copy').addEventListener('click',async()=>{const b=$('copy');try{await navigator.clipboard.writeText($('carta').textContent);b.textContent='Copiado'}catch(err){b.textContent='Selecciona y copia'}setTimeout(()=>b.textContent='Copiar',1800)});
+drawSectors();drawProbs();render();
+}
+</script>
+</body>
+</html>
