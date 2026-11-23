@@ -9,7 +9,7 @@ const CAT={peru:'Perú',mundo:'Mundo',mercados:'Mercados'};
 const fdate=s=>{const[y,m,d]=s.split('-').map(Number);return d+' '+MES[m-1]+' '+y};
 const host=u=>{try{return new URL(u).hostname.replace('www.','')}catch(e){return ''}};
 const hm=iso=>new Date(iso).toLocaleString('es-PE',{timeZone:'America/Lima',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-const link=a=>'nota.html?id='+encodeURIComponent(a.id);
+const link=a=>'nota-'+a.id+'.html';
 const page=document.body.dataset.page||'home';
 
 function ph(m,c,t,eager){
@@ -107,10 +107,10 @@ P.home=(D,m)=>{
 <section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Economía internacional</p><h2>Mundo</h2></div><a class="more" href="mundo.html">Todas las noticias del mundo →</a></div>${feat(sec('mundo'))}</div></section>
 <section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Dólar, metales y bolsas</p><h2>Mercados</h2></div><a class="more" href="mercados.html">Ver mercados →</a></div><div class="grid">${sec('mercados').slice(0,3).map(card).join('')}</div></div></section>
 <section class="band"><div class="wrap ess"><div class="ess-box rv"><p class="kick">Lo esencial de la semana</p><h2>Cinco datos para entender la economía hoy</h2><ol>
-<li><b>El BCRP subió su tasa a 4,50 %</b>, la primera alza desde 2023, para frenar una inflación de 5,25 % en Lima. <a href="nota.html?id=bcrp-tasa">Leer →</a></li>
+<li><b>El BCRP subió su tasa a 4,50 %</b>, la primera alza desde 2023, para frenar una inflación de 5,25 % en Lima. <a href="nota-bcrp-tasa.html">Leer →</a></li>
 <li><b>La economía creció 2,43 % en setiembre</b>, pero la minería cayó; el BCRP proyecta 3,2 % para 2026. <a href="panorama.html">Ver Panorama →</a></li>
-<li><b>El desempleo en Lima bajó a 4,4 %</b>, mínimo histórico, aunque un tercio de la fuerza laboral está subempleada. <a href="nota.html?id=desempleo">Leer →</a></li>
-<li><b>Las exportaciones subieron 31 %</b> a setiembre, con China como primer destino. <a href="nota.html?id=exportaciones">Leer →</a></li>
+<li><b>El desempleo en Lima bajó a 4,4 %</b>, mínimo histórico, aunque un tercio de la fuerza laboral está subempleada. <a href="nota-desempleo.html">Leer →</a></li>
+<li><b>Las exportaciones subieron 31 %</b> a setiembre, con China como primer destino. <a href="nota-exportaciones.html">Leer →</a></li>
 <li><b>Afuera, la Fed y el BCE se inclinan por subir tasas</b>, y el oro cayó a su nivel más bajo en 14 meses. <a href="mundo.html">Ver Mundo →</a></li></ol></div>
 <aside class="agenda rv"><p class="kick">Agenda económica</p><h3>Próximas fechas clave</h3><ul>
 <li><span class="ad">1 dic</span><span><b>INEI: inflación de noviembre</b><small>Dato de precios de Lima Metropolitana</small></span></li>
@@ -128,7 +128,7 @@ ${(D.linterna||[]).length?`<section class="band alt"><div class="wrap"><div clas
 <a class="ex rv" href="consumidor.html">${ph(pg.banca,'consumo','Consumidor')}<span class="ex-tx"><span class="ex-n">04</span><b>Especial Consumidor</b><span>Indecopi y el simulador de reclamos.</span></span></a>
 </div></div></section>
 <section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Para ti</p><h2>¿Cómo usar Pulso?</h2></div><p>Atajos según lo que necesites.</p></div><div class="aud">
-<div class="au rv"><span class="au-i">🎓</span><h3>Estudiantes</h3><p>Entiende las noticias y cítalas bien en tus trabajos.</p><a href="aprende.html">Glosario y guías →</a><a href="aprende.html#g-ipc">Cómo se mide la inflación →</a><a href="nota.html?id=bcrp-tasa">Copiar una cita APA →</a></div>
+<div class="au rv"><span class="au-i">🎓</span><h3>Estudiantes</h3><p>Entiende las noticias y cítalas bien en tus trabajos.</p><a href="aprende.html">Glosario y guías →</a><a href="aprende.html#g-ipc">Cómo se mide la inflación →</a><a href="nota-bcrp-tasa.html">Copiar una cita APA →</a></div>
 <div class="au rv"><span class="au-i">📚</span><h3>Profesores</h3><p>Material listo para la clase: gráficos, datos con fuente y casos.</p><a href="panorama.html">Panorama con 8 gráficos →</a><a href="indicadores.html">Tablero de indicadores →</a><a href="consumidor.html">Simulador del consumidor →</a></div>
 <div class="au rv"><span class="au-i">🏛️</span><h3>Autoridades</h3><p>Resumen ejecutivo de la coyuntura y análisis de política.</p><a href="panorama.html">Resumen macro en cifras →</a><a href="linterna.html">Linterna de Popa →</a><a href="nosotros.html">Sobre la iniciativa →</a></div>
 </div></div></section>
@@ -154,7 +154,7 @@ P.peru=section('peru','Perú','Política monetaria, precios, producción, empleo
 P.mundo=section('mundo','Mundo','Bancos centrales, grandes economías y materias primas: lo que pasa afuera y por qué nos afecta.');
 P.mercados=section('mercados','Mercados','Tipo de cambio, metales y cotizaciones: los precios que mueven la economía peruana.');
 P.nota=(D,m)=>{
-  const id=new URLSearchParams(location.search).get('id')||location.hash.slice(1);
+  const id=document.body.dataset.id||new URLSearchParams(location.search).get('id')||location.hash.slice(1);
   const a=D.articles.find(x=>x.id===id);
   if(!a){m.innerHTML=`<section class="band"><div class="wrap"><h1>No encontramos esa nota</h1><p style="margin:12px 0 20px;color:var(--soft)">Puede que haya sido retirada en la última actualización.</p><a class="btn" href="index.html">Volver a la portada</a></div></section>`;return}
   document.title=a.title+' · Pulso Económico';
@@ -179,10 +179,10 @@ P.indicadores=(D,m)=>{
   m.innerHTML=`<section class="banner">${ph((D.pages||{}).indicadores,'mercados','',true)}<div class="wrap in"><p class="kick">Datos</p><h1>Indicadores</h1><p class="sub">Las cifras que mueven la economía peruana, con su explicación y el enlace a la fuente oficial o al medio que la reportó.</p></div></section>
 <section class="band"><div class="wrap"><div class="sh"><div><p class="kick">${D.ticker.length} indicadores</p><h2>El tablero</h2></div><p>Haz clic en cualquier indicador para verificarlo en su fuente.</p></div><div class="ind">${D.ticker.map(t=>ic(t,EXPL[t.k])).join('')}</div></div></section>
 <section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Gráficos</p><h2>Cuatro gráficos para entender el momento</h2></div></div><div class="charts">
-<div class="chart rv"><h3>El BCRP rompe la pausa</h3><p class="meta">Tasa de referencia</p>${CH.bcrp()}<div class="cap"><span>Primera alza desde enero de 2023</span><a href="nota.html?id=bcrp-tasa">Leer la nota →</a></div></div>
-<div class="chart rv"><h3>La inflación, lejos de la meta</h3><p class="meta">Lima, últimos 12 meses a octubre</p>${CH.infl()}<div class="cap"><span>Fuente: INEI</span><a href="nota.html?id=inflacion-oct">Leer la nota →</a></div></div>
-<div class="chart rv"><h3>Tres bancos centrales</h3><p class="meta">Perú, EE. UU. y la eurozona</p>${CH.rates()}<div class="cap"><span>Fuentes: BCRP, Fed y BCE</span><a href="nota.html?id=bce">Leer la nota del BCE →</a></div></div>
-<div class="chart rv"><h3>Desempleo en mínimo histórico</h3><p class="meta">Lima Metropolitana</p>${CH.desempleo()}<div class="cap"><span>Fuente: INEI vía Gestión</span><a href="nota.html?id=desempleo">Leer la nota →</a></div></div>
+<div class="chart rv"><h3>El BCRP rompe la pausa</h3><p class="meta">Tasa de referencia</p>${CH.bcrp()}<div class="cap"><span>Primera alza desde enero de 2023</span><a href="nota-bcrp-tasa.html">Leer la nota →</a></div></div>
+<div class="chart rv"><h3>La inflación, lejos de la meta</h3><p class="meta">Lima, últimos 12 meses a octubre</p>${CH.infl()}<div class="cap"><span>Fuente: INEI</span><a href="nota-inflacion-oct.html">Leer la nota →</a></div></div>
+<div class="chart rv"><h3>Tres bancos centrales</h3><p class="meta">Perú, EE. UU. y la eurozona</p>${CH.rates()}<div class="cap"><span>Fuentes: BCRP, Fed y BCE</span><a href="nota-bce.html">Leer la nota del BCE →</a></div></div>
+<div class="chart rv"><h3>Desempleo en mínimo histórico</h3><p class="meta">Lima Metropolitana</p>${CH.desempleo()}<div class="cap"><span>Fuente: INEI vía Gestión</span><a href="nota-desempleo.html">Leer la nota →</a></div></div>
 </div></div></section>`;
 };
 P.aprende=(D,m)=>{
