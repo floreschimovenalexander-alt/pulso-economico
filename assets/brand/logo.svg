@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 64" role="img" aria-label="Pulso Económico">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF6A72"/><stop offset="1" stop-color="#A3122C"/></linearGradient></defs>
+<rect width="64" height="64" rx="15" fill="url(#g)"/>
+<path d="M8 38 H20 L25 30 L31 48 L38 16 L44 34 H50" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="52.5" cy="34" r="4" fill="#fff"/>
+<text x="80" y="43" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="-1" fill="#F7F8F8">Pulso</text>
+<text x="170" y="43" font-family="Newsreader,Georgia,serif" font-size="31" font-style="italic" font-weight="600" fill="#FF8A91">Económico</text>
+</svg>

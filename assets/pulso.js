@@ -1,4 +1,6 @@
 (function(){
+/* Configura aquí a dónde llegan las sugerencias: endpoint de Formspree (recomendado) o un correo. */
+const SUG={endpoint:'https://formspree.io/f/xyewbkob',email:''};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const MES=['ene','feb','mar','abr','may','jun','jul','ago','set','oct','nov','dic'];
@@ -50,16 +52,16 @@ ${T(0,104,13,'fill="currentColor" fill-opacity=".6"')}China: US$ 31 309 millones
 const MINI={'bcrp-tasa':'bcrp','inflacion-oct':'infl','desempleo':'desempleo','exportaciones':'expo','bce':'rates','fed':'rates'};
 
 /* ---------- shell ---------- */
-const NAV=[['index.html','Portada','home'],['peru.html','Perú','peru'],['mundo.html','Mundo','mundo'],['mercados.html','Mercados','mercados'],['panorama.html','Panorama','panorama'],['indicadores.html','Indicadores','indicadores'],['linterna.html','Linterna de Popa','linterna'],['aprende.html','Aprende','aprende'],null,['consumidor.html','Especial: Consumidor','consumidor','special'],['nosotros.html','Nosotros','nosotros']];
+const NAV=[['index.html','Portada','home'],['peru.html','Perú','peru'],['mundo.html','Mundo','mundo'],['mercados.html','Mercados','mercados'],['panorama.html','Panorama','panorama'],['indicadores.html','Indicadores','indicadores'],['linterna.html','Linterna de Popa','linterna'],['aprende.html','Aprende','aprende'],null,['consumidor.html','Consumidor','consumidor','special'],['nosotros.html','Nosotros','nosotros'],['sugerencias.html','Sugerencias','sugerencias']];
 function shell(D){
   const hdr=$('hdr');if(!hdr)return;
   const now=new Date();
   const tk=D.ticker.map(t=>`<a class="tk" href="${esc(t.src)}" target="_blank" rel="noopener"><b>${esc(t.k)}</b><span class="v">${esc(t.v)}</span><span class="${t.dir}">${t.dir==='up'?'▲':t.dir==='down'?'▼':'■'} ${esc(t.d)}</span><span class="meta">${esc(t.when)}</span></a>`).join('');
   const cur=page==='nota'?'':page;
   hdr.innerHTML=`<div class="status"><div class="wrap"><span>Lima · ${now.toLocaleDateString('es-PE',{timeZone:'America/Lima',weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><span class="live"><i></i>Actualizado ${esc(hm(D.updated))}</span></div></div>
-<div class="ticker" aria-label="Indicadores del día"><div class="track">${tk}${tk}</div></div>
-<header class="top"><div class="wrap"><div class="mast"><a class="logo" href="index.html"><strong>Pulso <i>Económico</i></strong><span>Economía peruana e internacional para estudiantes</span></a>
-<div class="search"><input id="q" type="search" placeholder="Buscar: inflación, cobre, empleo…" aria-label="Buscar noticias" autocomplete="off"><div class="sres" id="sres" hidden></div></div></div>
+<div class="ticker" aria-label="Indicadores del día"><div class="track">${tk}${tk.replace(/class="tk"/g,'class="tk dup" aria-hidden="true" tabindex="-1"')}</div></div>
+<header class="top"><div class="wrap"><div class="mast"><a class="logo" href="index.html" aria-label="Pulso Económico, portada"><img class="mark" src="assets/brand/mark.svg" alt="" width="34" height="34"><strong>Pulso <i>Económico</i></strong><span>Economía peruana e internacional para estudiantes</span></a>
+<div class="search"><input id="q" type="search" placeholder="Buscar: inflación, cobre, empleo…" title="Atajo: tecla /" aria-label="Buscar noticias" autocomplete="off"><div class="sres" id="sres" hidden></div></div></div>
 <nav class="sec" aria-label="Secciones">${NAV.map(n=>n?`<a href="${n[0]}"${n[3]?' class="special"':''}${n[2]===cur?' aria-current="page"':''}>${n[1]}</a>`:'<span class="sep"></span>').join('')}</nav></div></header>`;
   const q=$('q'),sr=$('sres');
   q.addEventListener('input',()=>{const t=q.value.trim().toLowerCase();if(t.length<2){sr.hidden=true;return}
@@ -67,11 +69,11 @@ function shell(D){
     sr.innerHTML=r.length?r.map(a=>`<a href="${link(a)}"><span class="meta">${CAT[a.cat]} · ${esc(a.tag)}</span><b>${esc(a.title)}</b></a>`).join(''):'<a href="aprende.html">Sin resultados. Prueba en el glosario →</a>';sr.hidden=false});
   document.addEventListener('click',e=>{if(!e.target.closest('.search'))sr.hidden=true});
   const f=$('ftr');if(f)f.innerHTML=`<footer><div class="wrap">
-<div><strong>Pulso Económico</strong><p>Proyecto de estudiantes de Economía de la Universidad Científica del Sur. Resúmenes propios, con enlace a cada fuente consultada.</p></div>
+<div><strong><img src="assets/brand/mark.svg" alt="" width="28" height="28" style="vertical-align:-6px;margin-right:10px">Pulso Económico</strong><p>Proyecto de estudiantes de Economía de la Universidad Científica del Sur. Resúmenes propios, con enlace a cada fuente consultada.</p></div>
 <div><h4>Secciones</h4><ul><li><a href="peru.html">Perú</a></li><li><a href="mundo.html">Mundo</a></li><li><a href="mercados.html">Mercados</a></li><li><a href="panorama.html">Panorama</a></li><li><a href="indicadores.html">Indicadores</a></li><li><a href="linterna.html">Linterna de Popa</a></li></ul></div>
-<div><h4>Para estudiar</h4><ul><li><a href="aprende.html">Glosario y guías</a></li><li><a href="consumidor.html">Especial: Consumidor e Indecopi</a></li><li><a href="reclama.html">Reclama con Derecho</a></li><li><a href="nosotros.html">Cómo trabajamos</a></li></ul></div>
+<div><h4>Para estudiar</h4><ul><li><a href="aprende.html">Glosario y guías</a></li><li><a href="consumidor.html">Especial: Consumidor e Indecopi</a></li><li><a href="reclama.html">Reclama con Derecho</a></li><li><a href="nosotros.html">Cómo trabajamos</a></li><li><a href="sugerencias.html">Envía una sugerencia</a></li></ul></div>
 <div><h4>Fuentes frecuentes</h4><ul><li><a href="https://www.bcrp.gob.pe">BCRP</a></li><li><a href="https://www.inei.gob.pe">INEI</a></li><li><a href="https://www.gob.pe/mef">MEF</a></li><li><a href="https://www.gob.pe/indecopi">Indecopi</a></li></ul></div>
-<div class="f-allies"><span>Con el apoyo de</span><img src="assets/logos/ucsur-white.png" alt="Universidad Científica del Sur" height="30"><img class="t" src="assets/logos/esi.png" alt="ESI" height="40"><img class="t" src="assets/logos/club.png" alt="Club de Emprendimiento e Innovación" height="40"></div><p class="fine">Los textos son resúmenes elaborados por el equipo a partir de las fuentes citadas. Para trabajos académicos o decisiones financieras, consulta siempre el documento original. Fotos: Unsplash, con crédito a cada autor.</p></div></footer>`;
+<p class="f-by">Creado y dirigido por <b>Alexander Salazar Flores</b>, estudiante de Economía y Negocios Internacionales (UCSUR) y CEO de GemlabsPeru.</p><div class="f-allies"><span>Con el apoyo de</span><img src="assets/logos/ucsur-white.png" alt="Universidad Científica del Sur" height="30"><img class="t" src="assets/logos/esi.png" alt="ESI" height="40"><img class="t" src="assets/logos/club.png" alt="Club de Emprendimiento e Innovación" height="40"></div><p class="fine">Los textos son resúmenes elaborados por el equipo a partir de las fuentes citadas. Para trabajos académicos o decisiones financieras, consulta siempre el documento original. Fotos: Unsplash, con crédito a cada autor.</p></div></footer>`;
 }
 
 /* ---------- blocks ---------- */
@@ -83,7 +85,7 @@ function feat(list){if(!list.length)return '';const[f,...r]=list;return `<div cl
 const ic=(t,x)=>`<a class="ic" href="${esc(t.src)}" target="_blank" rel="noopener"><span class="k">${esc(t.k)}</span><span class="v">${esc(t.v)}</span><span class="d ${t.dir}">${t.dir==='up'?'▲':t.dir==='down'?'▼':'■'} ${esc(t.d)}</span>${x?`<span class="x">${esc(x)}</span>`:''}<span class="s">${esc(t.when)} · ${esc(host(t.src))} ↗</span></a>`;
 const EXPL={'Tasa BCRP':'Costo del dinero que fija el BCRP. Si sube, préstamos y tarjetas se encarecen.','Inflación Lima (12 m)':'Cuánto subieron los precios en Lima en un año. La meta del BCRP es de 1 % a 3 %.','PBI Perú':'Crecimiento de la producción del país frente al mismo mes del año anterior.','Desempleo Lima':'Parte de la fuerza laboral de Lima que busca trabajo y no lo encuentra.','Dólar':'Precio del dólar en soles. Si baja, el sol se aprecia.','Cobre':'Primer producto de exportación del Perú: su precio mueve los ingresos del país.','Oro':'Otro gran producto de exportación; funciona como refugio en épocas de incertidumbre.','Brent':'Precio internacional del petróleo: influye en combustibles, pasajes y fletes.','Fed':'Tasa de la Reserva Federal: mueve el dólar y los capitales en todo el mundo.'};
 
-const ALLIES=(pg)=>`<section class="allies2">${ph((pg||{}).campus,'consumo','',false)}<div class="wrap in"><div class="al-head"><p class="kick">Una iniciativa estudiantil</p><h2>Hecho en la Universidad Científica del Sur</h2><p>Pulso Económico nace en la carrera de Economía y cuenta con el respaldo de organizaciones estudiantiles que impulsan la innovación.</p></div>
+const ALLIES=(pg)=>`<section class="allies2">${ph((pg||{}).campus,'consumo','',false)}<div class="wrap in"><div class="al-head"><p class="kick">Una iniciativa estudiantil</p><h2>Hecho en la Universidad Científica del Sur</h2><p>Pulso Económico nace en la carrera de Economía y cuenta con el respaldo de organizaciones estudiantiles que impulsan la innovación.</p><p class="al-by">Creado por <b>Alexander Salazar Flores</b> · Estudiante de Economía y Negocios Internacionales · CEO de GemlabsPeru</p></div>
 <div class="marquee" aria-label="Aliados de la iniciativa"><div class="mq-track">${('<span class="lg lg-w"><img src="assets/logos/ucsur.png" alt="Universidad Científica del Sur" height="40"></span><span class="lg"><img src="assets/logos/esi.png" alt="ESI · Estudiantes por la Sostenibilidad e Innovación"><b>ESI</b><small>Estudiantes por la Sostenibilidad e Innovación</small></span><span class="lg"><img src="assets/logos/club.png" alt="Club de Emprendimiento e Innovación"><b>Club de Emprendimiento</b><small>e Innovación</small></span>').repeat(4)}</div></div></div></section>`;
 const lcard=(x,big)=>`<article class="lp${big?' lp-big':''} rv"><div class="lp-top"><span class="lp-n">N.º ${x.n}</span><span class="meta">${fdate(x.date)}</span></div><h3>${x.tema?'<span class="lp-tema">Tema: </span>':''}${esc(x.title)}</h3><ul>${x.ideas.map(i=>`<li>${esc(i)}</li>`).join('')}</ul><div class="lp-foot"><span class="lp-tags">${x.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</span><a href="${esc(x.u)}" target="_blank" rel="noopener">Leer la columna completa en PredicePerú ↗</a></div></article>`;
 /* ---------- pages ---------- */
@@ -98,10 +100,12 @@ P.home=(D,m)=>{
 <p class="kick" style="margin-top:26px">${esc(L.tag)} · ${fdate(L.date)} · Nota principal</p><h1>${esc(L.title)}</h1><p class="dek">${esc(L.dek)}</p>
 <div class="row"><a class="pill" href="${link(L)}">Leer la nota →</a><a class="pill ghost" href="indicadores.html">Ver indicadores</a></div>
 <div class="legend"><span><i></i>Lima</span><span><i></i>Washington · Fed</span><span><i></i>Fráncfort · BCE</span><span><i></i>Shanghái · China</span></div></div></section>
-${ALLIES(pg)}
 <div class="wrap"><div class="latest">${rest.slice(0,4).map(a=>`<a href="${link(a)}">${ph(a.img,a.cat,'')}<span><span class="meta">${CAT[a.cat]} · ${fdate(a.date)}</span><h3>${esc(a.title)}</h3></span></a>`).join('')}</div></div>
 <section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Datos clave</p><h2>Indicadores del día</h2></div><a class="more" href="indicadores.html">Ver gráficos y explicación →</a></div>
 <div class="ind five">${D.ticker.slice(0,5).map(t=>ic(t)).join('')}</div></div></section>
+<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Economía nacional</p><h2>Perú</h2></div><a class="more" href="peru.html">Todas las noticias de Perú →</a></div>${feat(sec('peru'))}</div></section>
+<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Economía internacional</p><h2>Mundo</h2></div><a class="more" href="mundo.html">Todas las noticias del mundo →</a></div>${feat(sec('mundo'))}</div></section>
+<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Dólar, metales y bolsas</p><h2>Mercados</h2></div><a class="more" href="mercados.html">Ver mercados →</a></div><div class="grid">${sec('mercados').slice(0,3).map(card).join('')}</div></div></section>
 <section class="band"><div class="wrap ess"><div class="ess-box rv"><p class="kick">Lo esencial de la semana</p><h2>Cinco datos para entender la economía hoy</h2><ol>
 <li><b>El BCRP subió su tasa a 4,50 %</b>, la primera alza desde 2023, para frenar una inflación de 5,25 % en Lima. <a href="nota.html?id=bcrp-tasa">Leer →</a></li>
 <li><b>La economía creció 2,43 % en setiembre</b>, pero la minería cayó; el BCRP proyecta 3,2 % para 2026. <a href="panorama.html">Ver Panorama →</a></li>
@@ -114,25 +118,24 @@ ${ALLIES(pg)}
 <li><span class="ad">Dic</span><span><b>BCRP: programa monetario</b><small>Fecha en bcrp.gob.pe</small></span></li>
 <li><span class="ad">Dic</span><span><b>BCE: reunión de política</b><small>Se espera una subida de tasas</small></span></li>
 <li><span class="ad">Dic</span><span><b>BCRP: Reporte de Inflación</b><small>Nuevas proyecciones 2026–2027</small></span></li></ul></aside></div></section>
-<section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Para ti</p><h2>¿Cómo usar Pulso?</h2></div><p>Atajos según lo que necesites.</p></div><div class="aud">
-<div class="au rv"><span class="au-i">🎓</span><h3>Estudiantes</h3><p>Entiende las noticias y cítalas bien en tus trabajos.</p><a href="aprende.html">Glosario y guías →</a><a href="aprende.html#g-ipc">Cómo se mide la inflación →</a><a href="nota.html?id=bcrp-tasa">Copiar una cita APA →</a></div>
-<div class="au rv"><span class="au-i">📚</span><h3>Profesores</h3><p>Material listo para la clase: gráficos, datos con fuente y casos.</p><a href="panorama.html">Panorama con 8 gráficos →</a><a href="indicadores.html">Tablero de indicadores →</a><a href="consumidor.html">Simulador del consumidor →</a></div>
-<div class="au rv"><span class="au-i">🏛️</span><h3>Autoridades</h3><p>Resumen ejecutivo de la coyuntura y análisis de política.</p><a href="panorama.html">Resumen macro en cifras →</a><a href="linterna.html">Linterna de Popa →</a><a href="nosotros.html">Sobre la iniciativa →</a></div>
-</div></div></section>
+${(D.linterna||[]).length?`<section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Análisis · PredicePerú</p><h2>Linterna de Popa</h2></div><a class="more" href="linterna.html">Todas las columnas →</a></div><div class="lp-grid">${lcard(D.linterna[0],true)}${D.linterna.slice(1,3).map(x=>lcard(x)).join('')}</div></div></section>`:''}
+<section class="band alt"><div class="wrap"><a class="spx rv" href="consumidor.html"><div class="tx"><span class="badge"><i></i>Demo en vivo</span><p class="kick">Especial · Protección al consumidor</p><h2>¿Te fallaron? Reclama con el simulador del Indecopi</h2><p>Banca, turismo, autos y el Libro de Reclamaciones: tus derechos, casos reales sancionados y un simulador que calcula tu plazo de 15 días hábiles y te escribe el reclamo.</p><span class="pill" style="margin-top:6px">Abrir el especial →</span></div>
+<div class="mosaic">${ph(pg.banca,'consumo','Banca')}${ph(pg.turismo,'consumo','Turismo')}${ph(pg.autos,'consumo','Autos')}${ph(pg.libro,'consumo','Libro de Reclamaciones')}</div></a></div></section>
 <section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Explora</p><h2>Todo Pulso Económico</h2></div><p>Noticias, datos, análisis y herramientas para estudiar economía.</p></div><div class="explore">
 <a class="ex rv" href="panorama.html">${ph(pg.panorama,'peru','Panorama')}<span class="ex-tx"><span class="ex-n">01</span><b>Panorama</b><span>La economía peruana en cifras: crecimiento, fiscal y sector externo.</span></span></a>
 <a class="ex rv" href="linterna.html">${ph(pg.linterna,'mercados','Linterna de Popa')}<span class="ex-tx"><span class="ex-n">02</span><b>Linterna de Popa</b><span>Las columnas de análisis de PredicePerú, resumidas.</span></span></a>
 <a class="ex rv" href="indicadores.html">${ph(pg.indicadores,'mercados','Indicadores')}<span class="ex-tx"><span class="ex-n">03</span><b>Indicadores</b><span>El tablero diario con gráficos y fuentes.</span></span></a>
 <a class="ex rv" href="consumidor.html">${ph(pg.banca,'consumo','Consumidor')}<span class="ex-tx"><span class="ex-n">04</span><b>Especial Consumidor</b><span>Indecopi y el simulador de reclamos.</span></span></a>
 </div></div></section>
-<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Economía nacional</p><h2>Perú</h2></div><a class="more" href="peru.html">Todas las noticias de Perú →</a></div>${feat(sec('peru'))}</div></section>
-<section class="band alt"><div class="wrap"><a class="spx rv" href="consumidor.html"><div class="tx"><span class="badge"><i></i>Demo en vivo</span><p class="kick">Especial · Protección al consumidor</p><h2>¿Te fallaron? Reclama con el simulador del Indecopi</h2><p>Banca, turismo, autos y el Libro de Reclamaciones: tus derechos, casos reales sancionados y un simulador que calcula tu plazo de 15 días hábiles y te escribe el reclamo.</p><span class="pill" style="margin-top:6px">Abrir el especial →</span></div>
-<div class="mosaic">${ph(pg.banca,'consumo','Banca')}${ph(pg.turismo,'consumo','Turismo')}${ph(pg.autos,'consumo','Autos')}${ph(pg.libro,'consumo','Libro de Reclamaciones')}</div></a></div></section>
-<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Economía internacional</p><h2>Mundo</h2></div><a class="more" href="mundo.html">Todas las noticias del mundo →</a></div>${feat(sec('mundo'))}</div></section>
-${(D.linterna||[]).length?`<section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Análisis · PredicePerú</p><h2>Linterna de Popa</h2></div><a class="more" href="linterna.html">Todas las columnas →</a></div><div class="lp-grid">${lcard(D.linterna[0],true)}${D.linterna.slice(1,3).map(x=>lcard(x)).join('')}</div></div></section>`:''}
-<section class="band"><div class="wrap"><div class="sh"><div><p class="kick">Dólar, metales y bolsas</p><h2>Mercados</h2></div><a class="more" href="mercados.html">Ver mercados →</a></div><div class="grid">${sec('mercados').slice(0,3).map(card).join('')}</div></div></section>
+<section class="band alt"><div class="wrap"><div class="sh"><div><p class="kick">Para ti</p><h2>¿Cómo usar Pulso?</h2></div><p>Atajos según lo que necesites.</p></div><div class="aud">
+<div class="au rv"><span class="au-i">🎓</span><h3>Estudiantes</h3><p>Entiende las noticias y cítalas bien en tus trabajos.</p><a href="aprende.html">Glosario y guías →</a><a href="aprende.html#g-ipc">Cómo se mide la inflación →</a><a href="nota.html?id=bcrp-tasa">Copiar una cita APA →</a></div>
+<div class="au rv"><span class="au-i">📚</span><h3>Profesores</h3><p>Material listo para la clase: gráficos, datos con fuente y casos.</p><a href="panorama.html">Panorama con 8 gráficos →</a><a href="indicadores.html">Tablero de indicadores →</a><a href="consumidor.html">Simulador del consumidor →</a></div>
+<div class="au rv"><span class="au-i">🏛️</span><h3>Autoridades</h3><p>Resumen ejecutivo de la coyuntura y análisis de política.</p><a href="panorama.html">Resumen macro en cifras →</a><a href="linterna.html">Linterna de Popa →</a><a href="nosotros.html">Sobre la iniciativa →</a></div>
+</div></div></section>
 <section class="band alt"><div class="wrap learn">${ph(pg.aprende,'peru','Aprende')}<div class="rv"><p class="kick">Aprende</p><h2 style="font-size:clamp(28px,3vw,40px);margin:8px 0 10px">Entiende las noticias en una línea</h2><p style="color:var(--soft);font-size:17px">Glosario, guías para leer los reportes del BCRP y el INEI, y dónde encontrar datos oficiales para tus trabajos.</p>
-<div class="terms">${Object.entries(D.glossary).slice(0,10).map(([k,g])=>`<a href="aprende.html#g-${k}">${esc(g[0])}</a>`).join('')}</div><a class="btn" href="aprende.html">Ir a Aprende →</a></div></div></section>`;
+<div class="terms">${Object.entries(D.glossary).slice(0,10).map(([k,g])=>`<a href="aprende.html#g-${k}">${esc(g[0])}</a>`).join('')}</div><a class="btn" href="aprende.html">Ir a Aprende →</a></div></div></section><section class="band sugband"><div class="wrap sug-cta rv"><div><p class="kick">Tu voz cuenta</p><h2>¿Qué tema quieres que expliquemos?</h2><p>Sugiere noticias, temas para la clase o mejoras para la web. Leemos todas las sugerencias.</p></div><a class="btn red" href="sugerencias.html">Enviar una sugerencia →</a></div></section>
+${ALLIES(pg)}
+`;
 };
 function section(c,title,sub){return (D,m)=>{
   const list=D.articles.filter(a=>a.cat===c).sort(byDate);
@@ -163,7 +166,7 @@ P.nota=(D,m)=>{
 <div class="byline"><span>Redacción Pulso Económico</span><span>·</span><span>${fdate(a.date)}</span><span>·</span><span>${Math.max(1,Math.round(a.body.join(' ').split(' ').length/200))} min de lectura</span></div>
 <figure class="art-ph" style="margin:26px 0 0">${ph(a.img,a.cat,a.tag,true)}${a.img?`<figcaption>${esc(a.img.alt)}. Imagen ilustrativa.</figcaption>`:''}</figure></div>
 <div class="wrap art"><div><div class="body">${a.body.map(p=>`<p>${esc(p)}</p>`).join('')}</div>${MINI[a.id]?`<div class="mini">${CH[MINI[a.id]]()}</div>`:''}<div class="why"><b>¿Por qué importa?</b>${esc(a.why)}</div>
-<div class="tools"><button class="btn ghost" type="button" id="cite">Copiar cita para tu trabajo</button><button class="btn ghost" type="button" id="share">Copiar enlace</button><button class="btn ghost" type="button" onclick="window.print()">Imprimir o guardar PDF</button></div></div>
+<p class="sug-mini">¿Viste un error o quieres que expliquemos otro tema? <a href="sugerencias.html?ref=${encodeURIComponent(a.id)}">Envíanos una sugerencia →</a></p><div class="tools"><button class="btn ghost" type="button" id="cite">Copiar cita para tu trabajo</button><button class="btn ghost" type="button" id="share">Copiar enlace</button><button class="btn ghost" type="button" onclick="window.print()">Imprimir o guardar PDF</button><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(a.title+' · Pulso Económico '+location.href)}" target="_blank" rel="noopener">Compartir por WhatsApp</a></div></div>
 <aside class="side"><div class="box"><h3>Datos clave</h3><table class="dtab"><tbody>${a.data.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table></div>
 ${g?`<div class="box"><h3>Conceptos</h3><div class="chips">${g}</div><p class="def" id="def">Toca un concepto para ver su definición.</p></div>`:''}
 <div class="box"><h3>Fuentes consultadas</h3><ul class="srcs">${a.sources.map(s=>`<li><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}<span>${esc(host(s.u))} ↗</span></a></li>`).join('')}</ul></div></aside></div></article>
@@ -190,6 +193,24 @@ P.aprende=(D,m)=>{
 };
 P.linterna=(D,m)=>{const L=D.linterna||[];const box=$('lp-list');if(box)box.innerHTML=`<div class="lp-grid">${L.length?lcard(L[0],true):''}${L.slice(1).map(x=>lcard(x)).join('')}</div>`;const n=$('lp-count');if(n)n.textContent=L.length};
 P.panorama=()=>{};
+P.sugerencias=(D)=>{
+ const f=$('sugf');if(!f)return;const ref=new URLSearchParams(location.search).get('ref');const a=ref&&D.articles.find(x=>x.id===ref);
+ if(a){f.querySelector('[data-t="Error en una nota"]').setAttribute('aria-pressed','true');f.querySelector('[data-t="Tema o noticia"]').setAttribute('aria-pressed','false');$('s-ref').value=a.title}
+ const val=k=>f.querySelector(`[data-g="${k}"] [aria-pressed="true"]`)?.dataset.t||'';
+ f.addEventListener('click',e=>{const b=e.target.closest('[data-g] button');if(b){b.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))}const i=e.target.closest('[data-idea]');if(i){$('s-msg').value=i.dataset.idea;$('s-msg').dispatchEvent(new Event('input'));$('s-msg').focus()}});
+ $('s-msg').addEventListener('input',()=>{$('s-count').textContent=$('s-msg').value.length+' / 800'});
+ f.addEventListener('submit',async e=>{e.preventDefault();const msg=$('s-msg').value.trim();if(msg.length<10){$('s-out').className='s-out err';$('s-out').textContent='Escribe tu sugerencia (al menos 10 caracteres).';$('s-msg').focus();return}
+  const data={tipo:val('tipo'),perfil:val('perfil'),nombre:$('s-nom').value.trim(),correo:$('s-mail').value.trim(),carrera:$('s-car').value.trim(),nota:$('s-ref').value.trim(),mensaje:msg,pagina:location.href};
+  const txt=`Sugerencia para Pulso Económico\nTipo: ${data.tipo}\nPerfil: ${data.perfil}${data.carrera?' · '+data.carrera:''}\nNombre: ${data.nombre||'Anónimo'}\nCorreo: ${data.correo||'—'}${data.nota?'\nNota: '+data.nota:''}\n\n${data.mensaje}`;
+  const btn=$('s-send');btn.disabled=true;btn.textContent='Enviando…';
+  try{
+   if(SUG.endpoint){const r=await fetch(SUG.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(Object.assign({_subject:'Sugerencia · Pulso Económico · '+data.tipo},data,data.correo?{email:data.correo}:{}))});if(!r.ok)throw 0;done(true)}
+   else if(SUG.email){location.href=`mailto:${SUG.email}?subject=${encodeURIComponent('Sugerencia · Pulso Económico · '+data.tipo)}&body=${encodeURIComponent(txt)}`;done(false)}
+   else{try{await navigator.clipboard.writeText(txt)}catch(err){}$('s-out').className='s-out';$('s-out').innerHTML='Copiamos tu sugerencia. Envíala por <a href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">WhatsApp</a> al equipo de Pulso.';btn.disabled=false;btn.textContent='Enviar sugerencia'}
+  }catch(err){$('s-out').className='s-out err';$('s-out').textContent='No se pudo enviar. Revisa tu conexión e inténtalo otra vez.';btn.disabled=false;btn.textContent='Enviar sugerencia'}
+  function done(sent){f.hidden=true;$('s-ok').hidden=false;$('s-ok-t').textContent=sent?'¡Gracias! Recibimos tu sugerencia.':'Se abrió tu correo con la sugerencia lista: solo pulsa Enviar.'}
+ });
+};
 P.nosotros=()=>{const c=$('clock');if(!c)return;const h=Number(new Date().toLocaleString('en-US',{timeZone:'America/Lima',hour:'numeric',hour12:false}))%24;
   c.innerHTML=[0,6,12,18].map(x=>`<div class="slot${h>=x&&h<x+6?' on':''}"><b>${String(x).padStart(2,'0')}:00</b><span class="meta">${h>=x&&h<x+6?'bloque actual':'revisión'}</span></div>`).join('')};
 P.consumidor=()=>{const f=$('sim');if(!f)return;const fit=()=>{try{const h=f.contentDocument.documentElement.scrollHeight;if(h>200)f.style.height=h+'px'}catch(e){}};f.addEventListener('load',()=>{fit();setTimeout(fit,400)});window.addEventListener('resize',()=>setTimeout(fit,200))};
@@ -225,7 +246,13 @@ function globe(){const c=$('globe');if(!c||!c.getContext)return;const x=c.getCon
  raf=requestAnimationFrame(loop)}
 function tilt(){if(!matchMedia('(pointer:fine)').matches||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card,.spx,.sector');document.querySelectorAll('[data-tilt]').forEach(el=>{if(el!==c){el.style.transform='';el.removeAttribute('data-tilt')}});if(!c)return;const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.setAttribute('data-tilt','');c.style.transform=`perspective(900px) rotateX(${(-py*4).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateY(-2px)`},{passive:true})}
-function start(D){credits();shell(D);slots(D);const m=$('main');(P[page]||(()=>{}))(D,m);reveal();globe();tilt()}
+function extras(){
+ const up=document.createElement('a');up.href='#';up.className='totop';up.setAttribute('aria-label','Volver arriba');up.textContent='↑';up.onclick=e=>{e.preventDefault();scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})};document.body.appendChild(up);
+ const bar=page==='nota'?Object.assign(document.createElement('div'),{className:'progress'}):null;if(bar)document.body.appendChild(bar);
+ const on=()=>{const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;up.classList.toggle('show',y>900);if(bar)bar.style.transform=`scaleX(${h>0?Math.min(1,y/h):0})`};addEventListener('scroll',on,{passive:true});on();
+ addEventListener('keydown',e=>{if(e.key==='/'&&!/input|textarea|select/i.test(document.activeElement.tagName)){const q=$('q');if(q){e.preventDefault();q.focus()}}});
+}
+function start(D){credits();extras();shell(D);slots(D);const m=$('main');(P[page]||(()=>{}))(D,m);reveal();globe();tilt()}
 const seed=window.PULSO;
 fetch('data/news.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>start(seed&&seed.updated>d.updated?seed:d)).catch(()=>{if(seed)start(seed)});
 })();

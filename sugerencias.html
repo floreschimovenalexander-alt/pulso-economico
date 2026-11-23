@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sugerencias · Pulso Económico</title>
+<meta name="description" content="Envía temas, correcciones e ideas para Pulso Económico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700;800&display=swap">
+<meta name="theme-color" content="#08090A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/brand/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<meta property="og:site_name" content="Pulso Económico">
+<meta property="og:title" content="Sugerencias · Pulso Económico">
+<meta property="og:description" content="Envía temas, correcciones e ideas para Pulso Económico.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://pulso-economico.pages.dev/assets/brand/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/pulso.css">
+</head>
+<body data-page="sugerencias">
+<div id="hdr"></div>
+<main id="main"><section class="banner banner-sm"><div data-ph="aprende" data-c="peru" data-eager></div><div class="wrap in"><p class="kick">Participa</p><h1>Sugerencias</h1><p class="sub">¿Qué tema quieres que expliquemos? ¿Encontraste un error? Pulso se construye con estudiantes, profesores y lectores.</p></div></section>
+<section class="band"><div class="wrap sugwrap">
+<form class="sugform" id="sugf" novalidate>
+<div class="fg"><span class="fl">¿Qué quieres enviarnos?</span><div class="segs" data-g="tipo"><button type="button" data-t="Tema o noticia" aria-pressed="true">💡 Tema o noticia</button><button type="button" data-t="Error en una nota" aria-pressed="false">⚠️ Error en una nota</button><button type="button" data-t="Mejora para la web" aria-pressed="false">🛠️ Mejora para la web</button><button type="button" data-t="Otro" aria-pressed="false">💬 Otro</button></div></div>
+<div class="fg"><span class="fl">¿Quién eres?</span><div class="segs" data-g="perfil"><button type="button" data-t="Estudiante" aria-pressed="true">Estudiante</button><button type="button" data-t="Profesor" aria-pressed="false">Profesor</button><button type="button" data-t="Autoridad" aria-pressed="false">Autoridad</button><button type="button" data-t="Público" aria-pressed="false">Público</button></div></div>
+<div class="fg two"><label><span class="fl">Nombre (opcional)</span><input id="s-nom" type="text" autocomplete="name"></label><label><span class="fl">Carrera o curso (opcional)</span><input id="s-car" type="text" placeholder="Ej.: Economía, ciclo 5"></label></div>
+<div class="fg two"><label><span class="fl">Correo (opcional, para responderte)</span><input id="s-mail" type="email" autocomplete="email"></label><label><span class="fl">Nota relacionada (opcional)</span><input id="s-ref" type="text" placeholder="Título de la nota"></label></div>
+<div class="fg"><label><span class="fl">Tu sugerencia</span><textarea id="s-msg" rows="6" maxlength="800" required placeholder="Ej.: Me gustaría una nota que explique cómo afecta la subida de tasas a los créditos estudiantiles."></textarea></label><span class="meta" id="s-count">0 / 800</span></div>
+<div class="fg"><span class="fl">Ideas rápidas</span><div class="ideas"><button type="button" data-idea="Me gustaría que expliquen cómo afecta la inflación al costo de vida de los estudiantes.">Inflación y estudiantes</button><button type="button" data-idea="Sugiero una sección sobre oportunidades de prácticas y empleo para economistas.">Prácticas y empleo</button><button type="button" data-idea="Me gustaría más gráficos descargables para usar en clase.">Gráficos para clase</button><button type="button" data-idea="Sugiero notas sobre economía regional (Arequipa, Piura, Cusco).">Economía regional</button></div></div>
+<button class="btn red" id="s-send" type="submit">Enviar sugerencia</button><p class="s-out" id="s-out" role="status"></p>
+<p class="meta">Tu sugerencia es anónima si no escribes tu nombre ni tu correo. No publicamos datos personales.</p>
+</form>
+<div class="sugok" id="s-ok" hidden><span class="big-ok">✓</span><h2 id="s-ok-t">¡Gracias!</h2><p>El equipo revisa las sugerencias cada semana. Las mejores ideas se convierten en notas, guías o mejoras de la web.</p><a class="btn" href="index.html">Volver a la portada</a></div>
+<aside class="sugside"><div class="box"><h3>¿Qué pasa con tu sugerencia?</h3><ol class="method" style="margin-top:6px"><li><div><h3>La leemos</h3><p>Revisamos todas, cada semana.</p></div></li><li><div><h3>La evaluamos</h3><p>Priorizamos temas útiles para la clase y la coyuntura.</p></div></li><li><div><h3>La publicamos</h3><p>Si la convertimos en nota, te damos el crédito si lo deseas.</p></div></li></ol></div>
+<div class="box"><h3>¿Encontraste un error?</h3><p class="meta" style="font-size:14px">Indícanos la nota y el dato. Corregimos y dejamos constancia del cambio.</p></div></aside>
+</div></section></main>
+<div id="ftr"></div>
+<script src="data/news.js"></script>
+<script src="assets/pulso.js"></script>
+</body>
+</html>
